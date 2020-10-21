@@ -9,6 +9,7 @@ var morgan_1 = __importDefault(require("morgan"));
 var cors_1 = __importDefault(require("cors"));
 var indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 var apiRputes_1 = __importDefault(require("./routes/apiRputes"));
+var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 var Server = /** @class */ (function () {
     function Server() {
         this.app = express_1.default();
@@ -25,6 +26,7 @@ var Server = /** @class */ (function () {
     Server.prototype.routes = function () {
         this.app.use('/', indexRoutes_1.default);
         this.app.use('/api', apiRputes_1.default);
+        this.app.use('/user', userRoutes_1.default);
     };
     Server.prototype.start = function () {
         var _this = this;
