@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     email: '',
     nacimieno: new Date(),
     credito: 10000,
-    idTipo_U: 2
+    idTipo_U: 2,
   }
 
   ngOnInit(): void {
@@ -40,12 +40,17 @@ export class LoginComponent implements OnInit {
     console.log(this.user)
     this.userService.login(this.user).subscribe(
       res => {
-        this.userService.setUser(res);
         this.tempU=res;
-        if(this.tempU.rol==1){
-          this.router.navigate(['admin/register']);
-        }else if(this.tempU.rol==2){
-          this.router.navigate(['user/home']);
+        if(this.tempU.confirmacion==1){
+          this.userService.setUser(res);
+          
+          if(this.tempU.rol==1){
+            this.router.navigate(['admin/register']);
+          }else if(this.tempU.rol==2){
+            this.router.navigate(['user/home']);
+          }
+        }else{
+          alert("No ah balidado la cuenta");
         }
         console.log(res)},
       err => console.log(err) 

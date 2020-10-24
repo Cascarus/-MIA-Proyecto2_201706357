@@ -7,6 +7,7 @@ import { HomeComponent} from './components/user/home/home.component';
 import { AuthGuard  } from './guard/auth.guard';
 import { UserGuard  } from './guard/user.guard';
 import { AllGuard  } from './guard/all.guard';
+import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component'
 
 const routes: Routes = [
   {
@@ -16,12 +17,17 @@ const routes: Routes = [
   },
   {
     path:'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [AllGuard]
   },
   {
     path: 'admin/register',
     component: RegisterComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'confirmacionUser/:id',
+    component: ConfirmacionRegistroComponent
   },
   {
     path: 'user/home',

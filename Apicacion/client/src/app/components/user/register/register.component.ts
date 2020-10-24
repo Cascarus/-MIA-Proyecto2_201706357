@@ -19,7 +19,9 @@ export class RegisterComponent implements OnInit {
     email: '',
     nacimieno: new Date(),
     credito: 10000,
-    idTipo_U: 2
+    idTipo_U: 2,
+    token: '',
+    confirmacion: 0
   }
 
   constructor(private userService: UserService) { }
@@ -29,6 +31,7 @@ export class RegisterComponent implements OnInit {
 
   saveNewUser(){
     delete this.user.id;
+    this.user.confirmacion=0;
   //    delete this.user.nacimieno;
     this.userService.getUsers().subscribe(
       res => console.log(res),

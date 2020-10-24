@@ -12,7 +12,8 @@ export class AllGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       let sesion = this.userService.getSesion();
-      if(sesion.rol!=1  &&  sesion.rol!=2){
+      
+      if(sesion==null){
         return true;
       }
       else{

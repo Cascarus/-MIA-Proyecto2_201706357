@@ -7,4 +7,6 @@ export interface User{
     nacimieno?: Date;
     credito?: number;
     idTipo_U?: number;
+    confirmacion?: number;
+    token?: string;
 }

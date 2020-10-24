@@ -60,7 +60,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 var database_1 = __importDefault(require("../database"));
-var crypto = __importStar(require("crypto"));
+var crypto = __importStar(require("crypto")); //para incriptar en md5
+var nodemailer_1 = __importDefault(require("nodemailer")); //Envia correos, references https://nodemailer.com/about/
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var UserController = /** @class */ (function () {
     function UserController() {
         this.mensaje = "Si sale archivos";
@@ -84,17 +86,69 @@ var UserController = /** @class */ (function () {
     };
     UserController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var connection, sql, obj;
+            var connection, sql, obj, transporter, info;
             return __generator(this, function (_a) {
-                connection = database_1.default.db2();
-                sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U) VALUES (:nombre,:apellido,:pass,:email,:nacimieno,:credito,:idTipo_U)';
-                obj = req.body;
-                obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
-                console.log(obj);
-                connection.exec(sql, obj, function (result) {
-                    res.json(result);
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        connection = database_1.default.db2();
+                        sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U,confirmacion,token) VALUES (:nombre,:apellido,:pass,:email,:nacimieno,:credito,:idTipo_U,:confirmacion,:token)';
+                        obj = req.body;
+                        obj.token = jsonwebtoken_1.default.sign(obj.email, obj.nombre);
+                        obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
+                        console.log(obj);
+                        connection.exec(sql, obj, function (result) {
+                            res.json(result);
+                        });
+                        transporter = nodemailer_1.default.createTransport({
+                            service: "gmail",
+                            auth: {
+                                user: 'familyu3213@gmail.com',
+                                pass: 'Steven098'
+                            },
+                        });
+                        return [4 /*yield*/, transporter.sendMail({
+                                from: "familyu3213@gmail.com",
+                                to: obj.email,
+                                subject: "Confirmacion De Registro",
+                                text: " Confirme su registro ",
+                                html: "<br><h1>Confirma  tu servicio " + obj.nombre + ".</h1>" + "<br>" + "<h3>Presiona el siguiente link para confirmar tu cuenta</h3>" + "<br>" +
+                                    "<a href=\"http://localhost:4200/confirmacionUser/" + obj.token + "\"><buttonhref=\"http://localhost:4200/confirmacionUser/" + obj.token + "\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>" +
+                                    "<br>" +
+                                    "<br><img src=\"https://img.icons8.com/wired/2x/among-us.png\"/>",
+                            })];
+                    case 1:
+                        info = _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.emailSend = function (enamil) {
+        return __awaiter(this, void 0, void 0, function () {
+            var transporter, info;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        transporter = nodemailer_1.default.createTransport({
+                            host: "smtp.ethereal.email",
+                            port: 587,
+                            secure: false,
+                            auth: {
+                                user: "jerrod.satterfield@ethereal.email",
+                                pass: "xxt33ekw4nZr1Y1vYp",
+                            },
+                        });
+                        return [4 /*yield*/, transporter.sendMail({
+                                from: 'Remitente',
+                                to: enamil,
+                                subject: "Guapa",
+                                text: "Como estas?",
+                                html: "Hermosa",
+                            })];
+                    case 1:
+                        info = _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -106,6 +160,7 @@ var UserController = /** @class */ (function () {
                 sql = 'SELECT * FROM usuario WHERE email=:email AND pass=:pass';
                 obj = req.body;
                 obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
+                console.log(obj.pass);
                 connection.exec(sql, obj, function (result) {
                     if (result.length > 0 && result.length < 2) {
                         var tempUser = {
@@ -113,9 +168,24 @@ var UserController = /** @class */ (function () {
                             nombre: result[0].NOMBRE,
                             apellido: result[0].APELLIDO,
                             rol: result[0].IDTIPO_U,
+                            confirmacion: result[0].CONFIRMACION,
                         };
                         res.json(tempUser);
                     }
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    UserController.prototype.confirmacion = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, id;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'UPDATE usuario SET confirmacion=1 WHERE token=:ID';
+                id = req.params.id;
+                connection.exec(sql, [id], function (result) {
+                    res.json(result);
                 });
                 return [2 /*return*/];
             });

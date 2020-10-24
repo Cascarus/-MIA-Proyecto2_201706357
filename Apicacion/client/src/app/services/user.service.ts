@@ -33,7 +33,11 @@ export class UserService {
   }
 
   limpiarSesion(){
-    localStorage.removeItem("currentUser")
+    localStorage.removeItem("currentUser");
+  }
+
+  confirmacionRegister(token:string){
+    return this.http.get(`${this.url}user/confirmacion/${token}`);
   }
 
 }

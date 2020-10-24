@@ -4,7 +4,7 @@ import cors from 'cors';
 import indexRoutes from './routes/indexRoutes';
 import apiRputes from './routes/apiRputes';
 import userRoutes from './routes/userRoutes';
-
+import imageRoutes from './routes/imageRoutes';
 
 class Server {
     
@@ -29,6 +29,7 @@ class Server {
         this.app.use('/', indexRoutes);
         this.app.use('/api', apiRputes);
         this.app.use('/user', userRoutes);
+        this.app.use('/image', imageRoutes);
     }
 
     start():void{

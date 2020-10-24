@@ -11,7 +11,8 @@ import { RegisterComponent } from './components/user/register/register.component
 
 import { UserService } from './services/user.service';
 import { HomeComponent } from './components/user/home/home.component';
-import { NotFoundComponent } from './components/not-found/not-found.component'
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component'
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component'
     NavigationComponent,
     RegisterComponent,
     HomeComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ConfirmacionRegistroComponent
   ],
   imports: [
     BrowserModule,
