@@ -36,6 +36,14 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="name">Confirmar Password</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input type="password" class="input--style-6"  placeholder="Password" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
                         <div class="name">Nacimiento</div>
                         <div class="value">
                             <div class="input-group">
@@ -44,23 +52,16 @@
                             </div>
                         </div>
                     </div>
+                   
                     <div class="form-row">
-                        <div class="name">Message</div>
-                        <div class="value">
-                            <div class="input-group">
-                                <textarea class="textarea--style-6" name="message" placeholder="Message sent to the employer"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="name">Upload CV</div>
+                        <div class="name">Upload Photo</div>
                         <div class="value">
                             <div class="input-group js-input-file">
-                                <input class="input-file" type="file" name="file_cv" id="file">
+                                <input class="input-file" type="file" name="file_cv" id="file" (change)="onPhotoSelected($event)">
                                 <label class="label--file" for="file">Choose file</label>
-                                <span class="input-file__info">No file chosen</span>
+                                <span class="input-file__info" id="NameFIle">No file chosen</span>
                             </div>
-                            <div class="label--desc">Upload your CV/Resume or any other relevant file. Max file size 50 MB</div>
+                            <div class="label--desc">Max file size 50 MB</div>
                         </div>
                     </div>
                 </form>

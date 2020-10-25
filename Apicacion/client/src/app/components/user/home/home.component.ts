@@ -11,6 +11,12 @@ export class HomeComponent implements OnInit {
   user: any;
   ngOnInit(): void {
     this.user=this.userService.getSesion();
+    this.userService.getOneUser(this.user.id).subscribe(
+      res => {
+        this.user=res;
+        console.log(res)},
+      err => console.log(err) 
+     );
   }
 
 }

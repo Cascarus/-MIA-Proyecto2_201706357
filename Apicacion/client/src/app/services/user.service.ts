@@ -40,4 +40,23 @@ export class UserService {
     return this.http.get(`${this.url}user/confirmacion/${token}`);
   }
 
+  sendEmail(user: User){//Envia email de confirmacion
+    return this.http.post(`${this.url}user/sendEmail`,user);
+  }
+
+  getOneUser(id:string){//Optiene un solo usuario dependiendo del ID
+    return this.http.get(`${this.url}user/${id}`);
+  }
+
+  getUserEmail(email:string){//Optiene un solo usuario dependiendo del correo 
+    return this.http.get(`${this.url}api/recuperrarContrasenia/${email}`);
+  }
+
+  sendEmailRecuperar(user: any){//Envia email para recuperar contrasenia
+    return this.http.post(`${this.url}api/sendEmail`,user);
+  }
+
+  updatePass(user:any){
+    return this.http.post(`${this.url}api/cambioPass`,user)
+  }
 }

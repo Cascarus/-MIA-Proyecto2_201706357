@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -41,24 +60,80 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.apiController = void 0;
 var database_1 = __importDefault(require("../database"));
+var nodemailer_1 = __importDefault(require("nodemailer")); //Envia correos, references https://nodemailer.com/about/
+var email_1 = __importDefault(require("../email"));
+var crypto = __importStar(require("crypto")); //para incriptar en md5
 var ApiController = /** @class */ (function () {
     function ApiController() {
     }
-    ApiController.prototype.consulta1 = function (req, res) {
+    //Esta ruta sera para enviar el correo para cambiar la contrania
+    ApiController.prototype.recuperrar = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql;
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT * FROM usuario WHERE email=:ID';
+                obj = req.params.id;
+                console.log(obj);
+                connection.exec(sql, [obj], function (result) {
+                    var tempUser = null;
+                    if (result.length > 0 && result.length < 2) {
+                        tempUser = {
+                            nombre: result[0].NOMBRE,
+                            apellido: result[0].APELLIDO,
+                            email: result[0].EMAIL,
+                            token: result[0].TOKEN,
+                        };
+                        res.json(tempUser);
+                    }
+                    else {
+                        res.json(tempUser);
+                    }
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.emailSend = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var transporter, obj, info;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        sql = "SELECT * FROM Prueba";
-                        return [4 /*yield*/, database_1.default.db2().exec(sql, [], function (result) {
-                                res.json(result);
+                        transporter = nodemailer_1.default.createTransport({
+                            service: "gmail",
+                            auth: email_1.default.auth,
+                        });
+                        obj = req.body;
+                        return [4 /*yield*/, transporter.sendMail({
+                                from: "familyu3213@gmail.com",
+                                to: obj.email,
+                                subject: "Cambio de contraseña",
+                                text: " Confirme su cambio de contraseña ",
+                                html: "<br><h1>Confirme que ud " + obj.nombre + " Quiere cambiar de contraseña.</h1>" + "<br>" + "<h3>Presiona el siguiente link para cambiar la conseña</h3>" + "<br>" +
+                                    "<a href=\"http://localhost:4200/cambioContrasenia/" + obj.token + "\"><buttonhref=\"http://localhost:4200/cambioContrasenia/" + obj.token + "\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>" +
+                                    "<br>" +
+                                    "<br><img src=\"https://cdn130.picsart.com/338579709044211.png?type=webp&to=min&r=240\"/>",
                             })];
-                    case 1: return [4 /*yield*/, _a.sent()];
-                    case 2:
-                        _a.sent();
+                    case 1:
+                        info = _a.sent();
                         return [2 /*return*/];
                 }
+            });
+        });
+    };
+    ApiController.prototype.cambiarpass = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'UPDATE usuario SET pass=:pass WHERE token=:token';
+                obj = req.body;
+                obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
+                connection.exec(sql, obj, function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
             });
         });
     };

@@ -11,8 +11,9 @@ var UserRoutes = /** @class */ (function () {
         this.router.get('/', userController_1.userController.getUser);
         this.router.post('/login', userController_1.userController.login);
         this.router.get('/confirmacion/:id', userController_1.userController.confirmacion);
-        //this.router.get('/:id', userController.getOneUser );
+        this.router.get('/:id', userController_1.userController.getOneUser);
         this.router.post('/', userController_1.userController.create);
+        this.router.post('/sendEmail', userController_1.userController.emailSend);
         this.router.put('/:id', userController_1.userController.update);
         this.router.delete('/:id', userController_1.userController.delete);
     };

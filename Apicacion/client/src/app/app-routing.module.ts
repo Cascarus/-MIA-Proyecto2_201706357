@@ -7,8 +7,8 @@ import { HomeComponent} from './components/user/home/home.component';
 import { AuthGuard  } from './guard/auth.guard';
 import { UserGuard  } from './guard/user.guard';
 import { AllGuard  } from './guard/all.guard';
-import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component'
-
+import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component';
+import { CambioContraseniaComponent } from './components/user/cambio-contrasenia/cambio-contrasenia.component';
 const routes: Routes = [
   {
     path: '',
@@ -21,9 +21,9 @@ const routes: Routes = [
     canActivate: [AllGuard]
   },
   {
-    path: 'admin/register',
+    path: 'register',
     component: RegisterComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AllGuard]
   },
   {
     path: 'confirmacionUser/:id',
@@ -33,6 +33,10 @@ const routes: Routes = [
     path: 'user/home',
     component: HomeComponent,
     canActivate: [UserGuard]
+  },
+  {
+    path: 'cambioContrasenia/:id',
+    component: CambioContraseniaComponent
   },
   {
     path: '**',

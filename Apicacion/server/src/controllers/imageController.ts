@@ -4,7 +4,7 @@ class ImageController {
 
     public create(req: Request, res:Response) {
         console.log('fotocargada')
-        res.json({text:'foto cargada'})
+        res.json({text: req.file.path})
     }
 
     public get(req: Request, res:Response) {

@@ -8,7 +8,9 @@ class ApiRoutes{
     }
 
     config():void{
-      this.router.get('/consulta1', apiController.consulta1  );
+      this.router.get('/recuperrarContrasenia/:id', apiController.recuperrar);
+      this.router.post('/sendEmail', apiController.emailSend  );
+      this.router.post('/cambioPass', apiController.cambiarpass  );
    /*  this.router.get('/consulta2', apiController.consulta2  );
      this.router.get('/consulta3', apiController.consulta3  );
      this.router.get('/consulta4', apiController.consulta4  );

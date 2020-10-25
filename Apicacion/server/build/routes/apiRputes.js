@@ -8,7 +8,9 @@ var ApiRoutes = /** @class */ (function () {
         this.config();
     }
     ApiRoutes.prototype.config = function () {
-        this.router.get('/consulta1', apiController_1.apiController.consulta1);
+        this.router.get('/recuperrarContrasenia/:id', apiController_1.apiController.recuperrar);
+        this.router.post('/sendEmail', apiController_1.apiController.emailSend);
+        this.router.post('/cambioPass', apiController_1.apiController.cambiarpass);
         /*  this.router.get('/consulta2', apiController.consulta2  );
           this.router.get('/consulta3', apiController.consulta3  );
           this.router.get('/consulta4', apiController.consulta4  );

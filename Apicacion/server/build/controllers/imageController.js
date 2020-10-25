@@ -6,7 +6,7 @@ var ImageController = /** @class */ (function () {
     }
     ImageController.prototype.create = function (req, res) {
         console.log('fotocargada');
-        res.json({ text: 'foto cargada' });
+        res.json({ text: req.file.path });
     };
     ImageController.prototype.get = function (req, res) {
         console.log('fotocargada');

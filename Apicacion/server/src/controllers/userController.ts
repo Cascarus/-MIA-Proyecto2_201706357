@@ -3,6 +3,7 @@ import pool from '../database';
 import * as crypto from 'crypto'; //para incriptar en md5
 import nodemailer from 'nodemailer'; //Envia correos, references https://nodemailer.com/about/
 import jwt from 'jsonwebtoken';
+import email from  '../email'
 
 class UserController {
    mensaje:string="Si sale archivos";
@@ -18,57 +19,49 @@ class UserController {
 
     public async create(req: Request, res:Response){
         var connection = pool.db2();
-        var sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U,confirmacion,token) VALUES (:nombre,:apellido,:pass,:email,:nacimieno,:credito,:idTipo_U,:confirmacion,:token)';
+        var sql = 'SELECT * FROM usuario WHERE email=:email'
         var obj = req.body;
+        var bandera:boolean=false;
         obj.token=jwt.sign(obj.email,obj.nombre);
         obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
-        console.log(obj);
-        connection.exec(sql,obj,function(result:any){
+        
+        connection.exec(sql,[obj.email],function(result:any){
+            if (result.length < 1 ) {
+                sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U,confirmacion,token,pathI) VALUES (:nombre,:apellido,:pass,:email,:nacimieno,:credito,:idTipo_U,:confirmacion,:token, :pathI)';
+                
+                connection.exec(sql,obj,function(result:any){
+                    res.json({text: 'Creado', token: obj.token});
+                    bandera=true;
+                });
+            }else{
+                res.json({text: 'Correo ya existe'});
+            }
             
-            res.json(result);
         });
-        
-        let transporter = nodemailer.createTransport({
-            service: "gmail",
-            
-            auth: {
-              user: '--',
-              pass: '--'
-            },
-            
-          });
-        
-          let info = await transporter.sendMail({
-            from: "familyu3213@gmail.com", // sender address
-            to: obj.email, // list of receivers
-            subject: "Confirmacion De Registro", // Subject line
-            text: " Confirme su registro ", // plain text body
-            html: "<br><h1>Confirma  tu servicio "+ obj.nombre+".</h1>"+"<br>"+"<h3>Presiona el siguiente link para confirmar tu cuenta</h3>"+"<br>"+ 
-            "<a href=\"http://localhost:4200/confirmacionUser/"+obj.token+"\"><buttonhref=\"http://localhost:4200/confirmacionUser/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
-            "<br>"+
-            "<br><img src=\"https://img.icons8.com/wired/2x/among-us.png\"/>", // html body
-          });
+      
     }
     
 
-    public async emailSend(enamil:any){
+    public async emailSend(req: Request, res:Response){
         let transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-              user: "jerrod.satterfield@ethereal.email", // generated ethereal user
-              pass: "xxt33ekw4nZr1Y1vYp", // generated ethereal password
-            },
+            service: "gmail",
+            
+            auth: email.auth,
+            
           });
         
-          let info = await transporter.sendMail({
-            from: 'Remitente', // sender address
-            to: enamil, // list of receivers
-            subject: "Guapa", // Subject line
-            text: "Como estas?", // plain text body
-            html: "Hermosa", // html body
-          });
+          var obj = req.body;
+            let info = await transporter.sendMail({
+              
+                from: "familyu3213@gmail.com", // sender address
+                to: obj.email, // list of receivers
+                subject: "Confirmacion De Registro", // Subject line
+                text: " Confirme su registro ", // plain text body
+                html: "<br><h1>Confirma  tu servicio "+ obj.nombre+".</h1>"+"<br>"+"<h3>Presiona el siguiente link para confirmar tu cuenta</h3>"+"<br>"+ 
+                "<a href=\"http://localhost:4200/confirmacionUser/"+obj.token+"\"><buttonhref=\"http://localhost:4200/confirmacionUser/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
+                "<br>"+
+                "<br><img src=\"https://img.icons8.com/wired/2x/among-us.png\"/>", // html body
+              });
     }
 
     public async login(req: Request, res:Response){
@@ -136,18 +129,19 @@ class UserController {
 
     public async getOneUser(req: Request, res:Response){
         var connection = pool.db2();
-        var sql = 'BEGIN insertuser(:reg,:nameU,:img,:mail,:pass,:cel); END;';
-        var obj = req.body;
-        console.log(obj);
-        connection.exec(sql,[obj.reg,obj.name,obj.img,obj.mail,obj.pass,obj.phone],function(result:any){
-            if(result==undefined){
-                sql = 'INSERT INTO ROL_USUARIO VALUES(:1,:2,:3,:4,:5)';
-                connection = pool.db2();
-                connection.execMany(sql,obj.rolTab);
-                res.send({status:'success'});
+        var sql = 'SELECT * FROM usuario WHERE idUsuario=:id';
+        var obj = req.params.id;
+        connection.exec(sql,[obj],function(result:any){
+            if (result.length > 0 && result.length < 2 ) {        
+                let tempUser={
+                    nombre: result[0].NOMBRE,
+                    apellido: result[0].APELLIDO,
+                    rol: result[0].IDTIPO_U,
+                    confirmacion: result[0].CONFIRMACION,
+                    pathI: result[0].PATHI
+                };
+                res.json(tempUser)
             }
-            else
-                res.send({status:'error'});
         });
     }
 

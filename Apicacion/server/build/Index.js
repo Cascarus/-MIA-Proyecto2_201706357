@@ -11,6 +11,7 @@ var indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 var apiRputes_1 = __importDefault(require("./routes/apiRputes"));
 var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 var imageRoutes_1 = __importDefault(require("./routes/imageRoutes"));
+var path_1 = __importDefault(require("path"));
 var Server = /** @class */ (function () {
     function Server() {
         this.app = express_1.default();
@@ -29,6 +30,7 @@ var Server = /** @class */ (function () {
         this.app.use('/api', apiRputes_1.default);
         this.app.use('/user', userRoutes_1.default);
         this.app.use('/image', imageRoutes_1.default);
+        this.app.use('/uploads', express_1.default.static(path_1.default.resolve('uploads')));
     };
     Server.prototype.start = function () {
         var _this = this;

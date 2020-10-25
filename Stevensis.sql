@@ -27,21 +27,25 @@ CREATE TABLE usuario(
     confirmacion NUMBER,
     idTipo_U NUMBER,
     token VARCHAR(250),
+    pathI VARCHAR(250),
     FOREIGN KEY (idtipo_U) REFERENCES tipo_U (idTipo_U)
 );
 
 
-
+TRUNCATE TABLE usuario;
 INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,idTipo_U, confirmacion) VALUES ('201706357','sis','21232f297a57a5a743894a0e4a801fc3','201706357',TO_DATE('12/01/2016', 'DD/MM/YYYY'),1,1);
+SELECT * FROM usuario;
+
+
 
 INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito, idTipo_U) VALUES ('201706357','sis','admin','aaronsishernandez@gmail.com',TO_DATE('12/01/2016', 'DD/MM/YYYY'),10000.00,2);
 
 SELECT * FROM tipo_u;
-SELECT * FROM usuario;
+
 
 SELECT * FROM usuario WHERE email='201706357' AND pass='admin';
 
-UPDATE usuario SET confirmacion=1 WHERE token='eyJhbGciOiJIUzI1NiJ9.cHJ1ZWJhc2lzQGdtYWlsLmNvbQ.WV0tT9CXqHixs7zvqJw2rL3AZBL-azR1irrX2bbZ2eo';
+UPDATE usuario SET confirmacion=0 WHERE token='eyJhbGciOiJIUzI1NiJ9.cHJ1ZWJhc2lzQGdtYWlsLmNvbQ.WV0tT9CXqHixs7zvqJw2rL3AZBL-azR1irrX2bbZ2eo';
 
-TRUNCATE TABLE usuario;
+
 DROP TABLE usuario;

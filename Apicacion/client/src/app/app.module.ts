@@ -10,9 +10,11 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { RegisterComponent } from './components/user/register/register.component';
 
 import { UserService } from './services/user.service';
+import { ImageService } from './services/image.service'
 import { HomeComponent } from './components/user/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component'
+import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component';
+import { CambioContraseniaComponent } from './components/user/cambio-contrasenia/cambio-contrasenia.component'
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { ConfirmacionRegistroComponent } from './components/user/confirmacion-re
     RegisterComponent,
     HomeComponent,
     NotFoundComponent,
-    ConfirmacionRegistroComponent
+    ConfirmacionRegistroComponent,
+    CambioContraseniaComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { ConfirmacionRegistroComponent } from './components/user/confirmacion-re
     FormsModule
   ],
   providers: [
-    UserService
+    UserService,
+    ImageService
   ],
   bootstrap: [AppComponent]
 })

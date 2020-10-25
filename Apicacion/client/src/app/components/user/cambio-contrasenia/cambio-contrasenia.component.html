@@ -1,0 +1,30 @@
+<div class="jumbotron text-center">
+
+
+    <h1 class="display-3">Cambio tu contraseña</h1>
+        <div class="card-body wrapper wrapper--w900">
+            <div class="form-row ">
+                <div class="name">New Password</div>
+                <div class="value">
+                    <div class="input-group">
+                        <input type="password" class="input--style-6" [(ngModel)]="temp.pass"  placeholder="Password" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="name">New Password Confirmar</div>
+                <div class="value">
+                    <div class="input-group">
+                        <input type="password" class="input--style-6"  placeholder="Password" >
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn--radius-2 btn--blue-2" type="submit" (click)="cambiarContrasenia()" >Cambiar contraseña</button>
+            </div>
+        </div>
+        
+    <hr>
+
+  
+</div>

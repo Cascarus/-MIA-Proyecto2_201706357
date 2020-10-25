@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
     idTipo_U: 2,
   }
 
+  correoRecuperar:string='';
+
   ngOnInit(): void {
   }
   tempU : any;
@@ -41,19 +43,37 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.user).subscribe(
       res => {
         this.tempU=res;
-        if(this.tempU.confirmacion==1){
-          this.userService.setUser(res);
-          
-          if(this.tempU.rol==1){
-            this.router.navigate(['admin/register']);
-          }else if(this.tempU.rol==2){
-            this.router.navigate(['user/home']);
+       
+          if(this.tempU.confirmacion==1){
+            this.userService.setUser(res);
+            
+            if(this.tempU.rol==1){
+              this.router.navigate(['admin/register']);
+            }else if(this.tempU.rol==2){
+              this.router.navigate(['user/home']);
+            }
+          }else{
+            alert("No ah balidado la cuenta");
           }
-        }else{
-          alert("No ah balidado la cuenta");
-        }
+        
+        
         console.log(res)},
       err => console.log(err) 
      );
+  }
+
+  recuperarContrasenia(){
+    console.log(this.correoRecuperar);
+    this.userService.getUserEmail(this.correoRecuperar).subscribe(
+      res =>{
+        this.tempU=res;
+        this.userService.sendEmailRecuperar(this.tempU).subscribe(
+          res=> {console.log(res); },
+          err=> alert(err) 
+          );
+        alert('Mensaje enviado a su correo');
+      },
+      err =>{console.log(err)}
+    );
   }
 }

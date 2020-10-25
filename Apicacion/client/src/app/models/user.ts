@@ -9,4 +9,5 @@ export interface User{
     idTipo_U?: number;
     confirmacion?: number;
     token?: string;
+    pathI?: string;
 }
