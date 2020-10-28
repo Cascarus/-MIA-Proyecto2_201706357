@@ -1,4 +1,81 @@
-<p>{{user.rol}}</p>
-<p>{{user.nombre}}</p>
-<p>{{user.apellido}}</p>
-<img src="http://localhost:3009/{{user.pathI}}">
+<hr>
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="col-sm-10">
+            <h1>{{user2.nombre}} {{user2.apellido}}</h1></div>
+        <div class="col-sm-2">
+            <a class="pull-right"><img title="profile image" class="img-fluid img-responsive"  src="http://localhost:3009/{{user2.pathI}}"></a>
+        </div>
+    </div>
+    <div class="row">
+        
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Nombre</label>
+                    <input type="text" class="form-control" placeholder="Default input" [(ngModel)]="user2.nombre"  [ngModelOptions]="{standalone: true}">
+                </div> 
+                
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Apellido</label>
+                    <input type="text" class="form-control" placeholder="Default input" [(ngModel)]="user2.apellido"  [ngModelOptions]="{standalone: true}">
+                </div>   
+                
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Email</label>
+                    <input type="text" readonly="readonly" class="form-control" placeholder="Default input" [(ngModel)]="user2.email"  [ngModelOptions]="{standalone: true}">
+                </div> 
+
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Confirmar Contraseña</label>
+                    <input type="password" class="form-control" >
+                </div>
+
+                <button type="button" class="btn btn-primary btn-lg " (click)="update()">Editar</button>
+
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Pais</label>
+                    <select id="categoria" name="categoria" class="form-control" [(ngModel)]="user2.idPais" [ngModelOptions]="{standalone: true}" >
+                        <option *ngFor="let cat of paises" [value]="cat.IDPAIS">{{cat.NOMBRE}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" placeholder="Default input" [(ngModel)]="user2.nacimieno"  [ngModelOptions]="{standalone: true}">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDefault" >Contraseña</label>
+                    <input type="password" class="form-control" [(ngModel)]="user2.pass" [ngModelOptions]="{standalone: true}" >
+                </div>
+                
+                <div class="form-group">
+                    <input class="input-file" type="file" name="file_cv" id="file" (change)="onPhotoSelected($event)">
+                    
+                    <span class="input-file__info" id="NameFIle"></span>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                
+                <div class="form-group">
+                    <p class="lead">Creditos Disponiebles:</p>
+                    <p class="text-success"> {{user2.credito}} </p>
+                </div>
+            </div>
+            
+
+            
+        
+       
+        <!--/tab-content-->
+
+    </div>
+    <!--/col-9-->
+</div>
+<!--/row-->
+   
+

@@ -26,16 +26,28 @@ export class NavigationComponent implements OnInit {
   }
 
   adminV(){
-    document.getElementById('Register').style.display="true";
+    document.getElementById('Perfil_U').style.display="none";
+    document.getElementById('Categorias_A').style.display="true";
+    document.getElementById('newProducto_U').style.display="none";
+    document.getElementById('Inicio_U').style.display="none";
+    document.getElementById('MyProductos_U').style.display="none";
   }
 
   userV(){
-    document.getElementById('Register').style.display="none";
+    document.getElementById('Perfil_U').style.display="true";
+    document.getElementById('newProducto_U').style.display="true";
+    document.getElementById('Categorias_A').style.display="none";
+    document.getElementById('Inicio_U').style.display="true";
+    document.getElementById('MyProductos_U').style.display="true";
   }
 
   allV(){
     document.getElementById('singOut').style.display="none";
-    document.getElementById('Register').style.display="none";
+    document.getElementById('Categorias_A').style.display="none";
+    document.getElementById('Perfil_U').style.display="none";
+    document.getElementById('newProducto_U').style.display="none";
+    document.getElementById('Inicio_U').style.display="none";
+    document.getElementById('MyProductos_U').style.display="none";
   }
 
   ngOnInit(): void {

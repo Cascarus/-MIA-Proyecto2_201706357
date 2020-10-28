@@ -47,8 +47,19 @@
                         <div class="name">Nacimiento</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-6" type="text" [(ngModel)]="user.nacimieno" [ngModelOptions]="{standalone: true}">
+                                <input class="input--style-6" type="date" [(ngModel)]="user.nacimieno" [ngModelOptions]="{standalone: true}">
                                 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Pais</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <select id="categoria" name="categoria" class="form-control" [(ngModel)]="user.idPais" [ngModelOptions]="{standalone: true}" >
+                                    <option *ngFor="let cat of paises" [value]="cat.IDPAIS">{{cat.NOMBRE}}</option>
+                                </select>
                             </div>
                         </div>
                     </div>

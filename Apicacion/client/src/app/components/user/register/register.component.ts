@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
 
   photoSelected: string | ArrayBuffer;
   file: File;
-  
+  paises: any = [];
   user:User ={
     id: 0, 
     nombre: '',
@@ -29,15 +29,17 @@ export class RegisterComponent implements OnInit {
     token: '',
     confirmacion: 0,
     pathI: '',
+    idPais:0,
   }
 
   constructor(private userService: UserService, private imageService: ImageService) {   }
 
   ngOnInit(): void {
+    this.getPaises();
+    
   }
 
   onPhotoSelected(event: HtmlInputEvent): void {
-    
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0]; //guarda la imagen
       document.getElementById('NameFIle').innerText=this.file.name;
@@ -73,11 +75,23 @@ export class RegisterComponent implements OnInit {
       this.saveNewUser2();
     }
   
-    
+
 
   }
+//Optiene la lista de paises
+getPaises(){
+  this.userService.getPaises().subscribe(
+    res => {
+      //console.log(res);
+      this.paises = res;
+    },
+    err => console.log(err)
+  );
+}
+
 //Crea al usuario
   saveNewUser2(){
+    console.log(this.user);
     this.userService.addUser(this.user).subscribe(
       res => {console.log(res);
         var tempU:any=res;

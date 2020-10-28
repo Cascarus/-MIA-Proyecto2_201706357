@@ -14,8 +14,9 @@ class UserRoutes{
       this.router.get('/:id', userController.getOneUser );
       this.router.post('/', userController.create  );
       this.router.post('/sendEmail', userController.emailSend  );
-      this.router.put('/:id', userController.update);
+      this.router.post('/update', userController.update);
       this.router.delete('/:id',userController.delete);
+      this.router.get('/paises/all', userController.getPaises);
     }
 }
 

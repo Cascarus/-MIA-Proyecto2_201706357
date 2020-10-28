@@ -97,7 +97,7 @@ var UserController = /** @class */ (function () {
                 obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
                 connection.exec(sql, [obj.email], function (result) {
                     if (result.length < 1) {
-                        sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U,confirmacion,token,pathI) VALUES (:nombre,:apellido,:pass,:email,:nacimieno,:credito,:idTipo_U,:confirmacion,:token, :pathI)';
+                        sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U,confirmacion,token,pathI,idPais) VALUES (:nombre,:apellido,:pass,:email, TO_DATE(:nacimieno, \'YYYY-MM-DD\') ,:credito,:idTipo_U,:confirmacion,:token, :pathI, :idPais)';
                         connection.exec(sql, obj, function (result) {
                             res.json({ text: 'Creado', token: obj.token });
                             bandera = true;
@@ -156,6 +156,7 @@ var UserController = /** @class */ (function () {
                             apellido: result[0].APELLIDO,
                             rol: result[0].IDTIPO_U,
                             confirmacion: result[0].CONFIRMACION,
+                            idPais: result[0].IDPAIS,
                         };
                         res.json(tempUser);
                     }
@@ -180,21 +181,16 @@ var UserController = /** @class */ (function () {
     };
     UserController.prototype.update = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var connection, sql, obj;
+            var connection, sql, obj, id;
             return __generator(this, function (_a) {
                 connection = database_1.default.db2();
-                sql = 'BEGIN insertuser(:reg,:nameU,:img,:mail,:pass,:cel); END;';
+                sql = 'UPDATE usuario SET nombre=:nombre, apellido=:apellido, nacimieno=TO_DATE(:nacimieno, \'YYYY-MM-DD\'), pass=:pass, pathI=:pathI, idPais=:idPais WHERE idUsuario=:id';
                 obj = req.body;
+                obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
+                id = req.params.id;
                 console.log(obj);
-                connection.exec(sql, [obj.reg, obj.name, obj.img, obj.mail, obj.pass, obj.phone], function (result) {
-                    if (result == undefined) {
-                        sql = 'INSERT INTO ROL_USUARIO VALUES(:1,:2,:3,:4,:5)';
-                        connection = database_1.default.db2();
-                        connection.execMany(sql, obj.rolTab);
-                        res.send({ status: 'success' });
-                    }
-                    else
-                        res.send({ status: 'error' });
+                connection.exec(sql, obj, function (result) {
+                    res.json(result);
                 });
                 return [2 /*return*/];
             });
@@ -232,16 +228,38 @@ var UserController = /** @class */ (function () {
                 connection.exec(sql, [obj], function (result) {
                     if (result.length > 0 && result.length < 2) {
                         var tempUser = {
+                            id: result[0].IDUSUARIO,
                             nombre: result[0].NOMBRE,
                             apellido: result[0].APELLIDO,
                             rol: result[0].IDTIPO_U,
                             confirmacion: result[0].CONFIRMACION,
-                            pathI: result[0].PATHI
+                            pathI: result[0].PATHI,
+                            email: result[0].EMAIL,
+                            credito: result[0].CREDITO,
+                            nacimieno: result[0].NACIMIENO,
+                            idPais: result[0].IDPAIS,
                         };
                         res.json(tempUser);
                     }
                 });
                 return [2 /*return*/];
+            });
+        });
+    };
+    UserController.prototype.getPaises = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sql;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sql = "SELECT * FROM pais";
+                        return [4 /*yield*/, database_1.default.db2().exec(sql, [], function (result) {
+                                res.json(result);
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };

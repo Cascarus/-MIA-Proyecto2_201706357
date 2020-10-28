@@ -10,11 +10,17 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { RegisterComponent } from './components/user/register/register.component';
 
 import { UserService } from './services/user.service';
-import { ImageService } from './services/image.service'
+import { ImageService } from './services/image.service';
+import { ProductoService } from './services/producto.service';
 import { HomeComponent } from './components/user/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component';
-import { CambioContraseniaComponent } from './components/user/cambio-contrasenia/cambio-contrasenia.component'
+import { CambioContraseniaComponent } from './components/user/cambio-contrasenia/cambio-contrasenia.component';
+import { CategoriasComponent } from './components/admin/categorias/categorias.component';
+import { NewProductoComponent } from './components/user/new-producto/new-producto.component';
+import { InicioComponent } from './components/user/inicio/inicio.component';
+import { DetalleProductoComponent } from './components/user/detalle-producto/detalle-producto.component';
+import { MisProductosComponent } from './components/user/mis-productos/mis-productos.component'
 
 @NgModule({
   declarations: [
@@ -25,7 +31,12 @@ import { CambioContraseniaComponent } from './components/user/cambio-contrasenia
     HomeComponent,
     NotFoundComponent,
     ConfirmacionRegistroComponent,
-    CambioContraseniaComponent
+    CambioContraseniaComponent,
+    CategoriasComponent,
+    NewProductoComponent,
+    InicioComponent,
+    DetalleProductoComponent,
+    MisProductosComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +46,8 @@ import { CambioContraseniaComponent } from './components/user/cambio-contrasenia
   ],
   providers: [
     UserService,
-    ImageService
+    ImageService,
+    ProductoService
   ],
   bootstrap: [AppComponent]
 })

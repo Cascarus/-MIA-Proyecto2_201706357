@@ -10,4 +10,6 @@ export interface User{
     confirmacion?: number;
     token?: string;
     pathI?: string;
+    idPais?: number;
+    rol?: number;
 }

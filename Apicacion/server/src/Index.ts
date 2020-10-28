@@ -5,6 +5,7 @@ import indexRoutes from './routes/indexRoutes';
 import apiRputes from './routes/apiRputes';
 import userRoutes from './routes/userRoutes';
 import imageRoutes from './routes/imageRoutes';
+import productoRoutes from './routes/productoRoutes';
 import path from 'path';
 class Server {
     
@@ -31,6 +32,7 @@ class Server {
         this.app.use('/user', userRoutes);
         this.app.use('/image', imageRoutes);
         this.app.use('/uploads', express.static(path.resolve('uploads')));
+        this.app.use('/producto', productoRoutes);
     }
 
     start():void{

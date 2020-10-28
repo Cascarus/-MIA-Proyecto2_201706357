@@ -1,0 +1,20 @@
+<div class="container"><p></p></div>
+
+<div class="container"><p></p> <H1 class="text-center">Mis Productos</H1></div>
+<div class="col-md-4" *ngFor="let product of productos">
+    
+    <div class="card text-center shadow p-3 mb-5 text-white rounded">
+        <div class="card-headee">
+            <h3>{{product.NOMBRE}}</h3>
+        </div>
+        <div class="card-body" >
+            <img src="http://localhost:3009/{{product.PATHI}}" class="card-img-top img-fluid img-responsive" >
+            <p class="card-text"> Q.{{product.PRECIO}} </p>
+            <p class="card-text"> {{product.PALABRAS}} </p>
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-outline-success">Detelle</button>
+        </div>
+    </div>
+    
+</div>

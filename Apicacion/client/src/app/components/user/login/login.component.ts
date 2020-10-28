@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
             this.userService.setUser(res);
             
             if(this.tempU.rol==1){
-              this.router.navigate(['admin/register']);
+              this.router.navigate(['admin/categorias']);
             }else if(this.tempU.rol==2){
               this.router.navigate(['user/home']);
             }

@@ -59,4 +59,12 @@ export class UserService {
   updatePass(user:any){
     return this.http.post(`${this.url}api/cambioPass`,user)
   }
+
+  getPaises(){
+    return this.http.get(`${this.url}user/paises/all`);
+  }
+
+  updateUsuer(user:User){
+    return this.http.post(`${this.url}user/update`,user)
+  }
 }

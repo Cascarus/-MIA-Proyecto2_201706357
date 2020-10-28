@@ -1,0 +1,27 @@
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Categorias</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Nombre</label>
+                <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="categoria.nombre"  [ngModelOptions]="{standalone: true}">
+            </div> 
+
+            <button type="button" class="btn btn-success" (click)="addCategoria()" >Agregar</button>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="col-form-label" for="inputDefault">Categorias</label>
+                <select id="categoria" name="categoria" class="form-control" [(ngModel)]="categoria.idCategoria" [ngModelOptions]="{standalone: true}" >
+                    <option *ngFor="let cat of categorias" [value]="cat.IDCATEGORIA">{{cat.NOMBRE}}</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-success" (click)="updateCategoria()">Editar</button>
+        </div>
+    </div>
+</div>

@@ -27,7 +27,7 @@ class UserController {
         
         connection.exec(sql,[obj.email],function(result:any){
             if (result.length < 1 ) {
-                sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U,confirmacion,token,pathI) VALUES (:nombre,:apellido,:pass,:email,:nacimieno,:credito,:idTipo_U,:confirmacion,:token, :pathI)';
+                sql = 'INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito,idTipo_U,confirmacion,token,pathI,idPais) VALUES (:nombre,:apellido,:pass,:email, TO_DATE(:nacimieno, \'YYYY-MM-DD\') ,:credito,:idTipo_U,:confirmacion,:token, :pathI, :idPais)';
                 
                 connection.exec(sql,obj,function(result:any){
                     res.json({text: 'Creado', token: obj.token});
@@ -68,6 +68,7 @@ class UserController {
         var connection = pool.db2();
         var sql = 'SELECT * FROM usuario WHERE email=:email AND pass=:pass';
         var obj = req.body;
+        
         obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
         console.log(obj.pass);
         connection.exec(sql,obj,function(result:any){
@@ -78,6 +79,7 @@ class UserController {
                     apellido: result[0].APELLIDO,
                     rol: result[0].IDTIPO_U,
                     confirmacion: result[0].CONFIRMACION,
+                    idPais: result[0].IDPAIS,
                 };
                 res.json(tempUser)
             }
@@ -95,18 +97,14 @@ class UserController {
 
     public async update(req: Request, res:Response){
         var connection = pool.db2();
-        var sql = 'BEGIN insertuser(:reg,:nameU,:img,:mail,:pass,:cel); END;';
+        var sql = 'UPDATE usuario SET nombre=:nombre, apellido=:apellido, nacimieno=TO_DATE(:nacimieno, \'YYYY-MM-DD\'), pass=:pass, pathI=:pathI, idPais=:idPais WHERE idUsuario=:id';
         var obj = req.body;
+        obj.pass = crypto.createHash('md5').update(obj.pass).digest("hex"); //Incriptamos la contraseña
+        var id = req.params.id; //Se optiene el parametro que se le envia 
         console.log(obj);
-        connection.exec(sql,[obj.reg,obj.name,obj.img,obj.mail,obj.pass,obj.phone],function(result:any){
-            if(result==undefined){
-                sql = 'INSERT INTO ROL_USUARIO VALUES(:1,:2,:3,:4,:5)';
-                connection = pool.db2();
-                connection.execMany(sql,obj.rolTab);
-                res.send({status:'success'});
-            }
-            else
-                res.send({status:'error'});
+        connection.exec(sql,obj,function(result:any){
+            
+            res.json(result);
         });
     }
 
@@ -134,18 +132,30 @@ class UserController {
         connection.exec(sql,[obj],function(result:any){
             if (result.length > 0 && result.length < 2 ) {        
                 let tempUser={
+                    id: result[0].IDUSUARIO,
                     nombre: result[0].NOMBRE,
                     apellido: result[0].APELLIDO,
                     rol: result[0].IDTIPO_U,
                     confirmacion: result[0].CONFIRMACION,
-                    pathI: result[0].PATHI
+                    pathI: result[0].PATHI,
+                    email: result[0].EMAIL,
+                    credito: result[0].CREDITO,
+                    nacimieno: result[0].NACIMIENO,
+                    idPais: result[0].IDPAIS,
                 };
                 res.json(tempUser)
             }
         });
     }
 
-    
+    public async getPaises(req: Request, res: Response){
+        var sql = "SELECT * FROM pais";
+        
+        await pool.db2().exec(sql,[],function(result:any){
+           res.json(result);
+       });
+       
+   }
 
 }
 

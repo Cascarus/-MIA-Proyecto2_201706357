@@ -4,6 +4,10 @@ import { LoginComponent } from './components/user/login/login.component';
 import { RegisterComponent } from './components/user/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeComponent} from './components/user/home/home.component';
+import { CategoriasComponent } from './components/admin/categorias/categorias.component';
+import { NewProductoComponent } from './components/user/new-producto/new-producto.component';
+import { InicioComponent } from './components/user/inicio/inicio.component';
+import { MisProductosComponent } from './components/user/mis-productos/mis-productos.component';
 import { AuthGuard  } from './guard/auth.guard';
 import { UserGuard  } from './guard/user.guard';
 import { AllGuard  } from './guard/all.guard';
@@ -30,14 +34,35 @@ const routes: Routes = [
     component: ConfirmacionRegistroComponent
   },
   {
+    path: 'cambioContrasenia/:id',
+    component: CambioContraseniaComponent
+  },
+  {
     path: 'user/home',
     component: HomeComponent,
     canActivate: [UserGuard]
   },
   {
-    path: 'cambioContrasenia/:id',
-    component: CambioContraseniaComponent
+    path: 'user/newProducto',
+    component: NewProductoComponent,
+    canActivate: [UserGuard]
   },
+  {
+    path: 'user/myProductos',
+    component: MisProductosComponent,
+    canActivate: [UserGuard]
+  },
+  {
+    path: 'user/Inicio',
+    component: InicioComponent,
+    canActivate: [UserGuard]
+  },
+  {
+    path: 'admin/categorias',
+    component: CategoriasComponent,
+    canActivate: [AuthGuard]
+  },
+  
   {
     path: '**',
     component: NotFoundComponent

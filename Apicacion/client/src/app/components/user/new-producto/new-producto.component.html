@@ -1,0 +1,47 @@
+<hr>
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Agrege un nuevo producto</h1>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="col-form-label" for="inputDefault">Nombre</label>
+            <input type="text" class="form-control" placeholder="nombre" [(ngModel)]="producto.nombre"  [ngModelOptions]="{standalone: true}">
+
+            <label class="col-form-label" for="inputDefault">Categorias</label>
+            <select id="categoria" name="categoria" class="form-control" [(ngModel)]="producto.idCategoria" [ngModelOptions]="{standalone: true}" >
+            <option *ngFor="let cat of categorias" [value]="cat.IDCATEGORIA">{{cat.NOMBRE}}</option>
+            </select>
+
+            <label class="col-form-label" for="inputDefault">Palabras clave (separelos por un punto y coma)</label>
+            <input type="text" class="form-control" placeholder="computadora;dell" [(ngModel)]="palabrasTemp"  [ngModelOptions]="{standalone: true}">
+
+        </div>
+        <div class="col-sm-4">
+            <label class="col-form-label" for="inputDefault">precio</label>
+            <input type="text" class="form-control" placeholder="precio" [(ngModel)]="producto.precio"  [ngModelOptions]="{standalone: true}">
+            <label for="exampleTextarea">Detalle</label>
+            <textarea class="form-control" id="exampleTextarea" rows="3" [(ngModel)]="producto.detalle"  [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <input class="input-file" type="file" name="file_cv" id="file" (change)="onPhotoSelected($event)">
+                
+                <span class="input-file__info" id="NameFIle"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-primary" (click)="addProducto()" >Agregar</button>
+        </div>
+        <div class="col-sm-4">
+            
+        </div>
+    </div>
+
+</div>
