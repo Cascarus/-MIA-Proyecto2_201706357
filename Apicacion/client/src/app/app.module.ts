@@ -20,7 +20,8 @@ import { CategoriasComponent } from './components/admin/categorias/categorias.co
 import { NewProductoComponent } from './components/user/new-producto/new-producto.component';
 import { InicioComponent } from './components/user/inicio/inicio.component';
 import { DetalleProductoComponent } from './components/user/detalle-producto/detalle-producto.component';
-import { MisProductosComponent } from './components/user/mis-productos/mis-productos.component'
+import { MisProductosComponent } from './components/user/mis-productos/mis-productos.component';
+import { ComentariosComponent } from './components/user/comentarios/comentarios.component'
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MisProductosComponent } from './components/user/mis-productos/mis-produ
     NewProductoComponent,
     InicioComponent,
     DetalleProductoComponent,
-    MisProductosComponent
+    MisProductosComponent,
+    ComentariosComponent
   ],
   imports: [
     BrowserModule,

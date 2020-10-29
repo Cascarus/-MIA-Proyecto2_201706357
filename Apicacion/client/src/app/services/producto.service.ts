@@ -42,4 +42,24 @@ export class ProductoService {
   getFiltro(sql:any){
     return this.http.post(`${this.url}producto/Ordenar/`,sql);
   }
+
+  getDetalleProducto(id:string){
+    return this.http.get(`${this.url}producto/DetalleProducto/${id}`);  
+  }
+
+  addLike(objeto:any){
+    return this.http.post(`${this.url}producto/Like`,objeto);
+  }
+
+  getAllLikes(id:string){
+    return this.http.get(`${this.url}producto/CantLikes/${id}`);
+  }
+
+  addComentario(objeto:any){
+    return this.http.post(`${this.url}producto/comentario`,objeto);
+  }
+
+  getComentarios(id:string){
+    return this.http.get(`${this.url}producto/comentarios/${id}`);
+  }
 }

@@ -1,1 +1,40 @@
-<p>detalle-producto works!</p>
+<hr>
+<div class=" row text-white">
+    <div class="col-sm-7">
+        <div class="jumbotron">
+            <h6 class="display-3">Detalle {{producto.nombre}}</h6>
+            <p class="lead">{{producto.detalle}}</p>
+            
+            <p class="lead text-center">Categoria: {{producto.nombreCA}}</p>
+            <p class="lead text-center">Palabras Clave: {{producto.palabras}}</p>
+            <div class="text-center">
+                <button type="button" class="btn btn-outline-info" (click)="comentario(producto.idProducto)" >Comentario</button>
+            </div>
+            
+          </div>
+
+    </div>
+    <div class="col-sm-4">
+        <div class="card border-danger mb-3" style="max-width: 20rem;">
+    
+            <div class="card-body">
+                <img src="http://localhost:3009/{{producto.pathI}}" class="card-img-top img-fluid img-responsive" >
+              <p class="card-text">Q{{producto.precio}}.</p>
+            </div>
+            <div class="card-footer">
+                <div class="container text-center">
+                    <button type="button" class="btn btn-outline-success" (click)="addLike('1')">Like {{tempL.Megusta}}</button>
+                 <button type="button" class="btn btn-outline-danger" (click)="addLike('2')">No Like  {{tempL.NoMegusta}}</button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm">Add to car</button>
+        </div>
+
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-warning">chat</button>
+    </div>
+</div>
+
+
+

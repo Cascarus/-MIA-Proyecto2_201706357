@@ -1,0 +1,22 @@
+<hr>
+<div class="col-md-11 overflow-auto">
+    <div class="jumbotron text-white">
+        <h1 class="display-6">Comentarios</h1>
+        
+        <div class="toast show " *ngFor="let coment of comentarios">
+            <div class="toast-header">
+              <strong class="mr-auto">{{coment.NOMBRE}} {{coment.APELLIDO}}</strong>
+              <small>{{coment.FECHA}}</small>
+                
+            </div>
+            <div class="toast-body">
+              {{coment.COMENT}}
+            </div>
+          </div>
+        
+        <textarea class="form-control" id="exampleTextarea" rows="3" [(ngModel)]="temp.coment"  [ngModelOptions]="{standalone: true}"></textarea>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" (click)="Comentar()" role="button">Comentar</a>
+          </p>
+      </div>
+</div>

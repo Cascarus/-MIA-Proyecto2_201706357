@@ -79,7 +79,7 @@ CREATE TABLE producto(
     pathI VARCHAR(250) NOT NULL,
     idCategoria NUMBER NOT NULL,
     idUsuario NUMBER NOT NULL,
-    
+    palabras VARCHAR(250),
     FOREIGN KEY (idCategoria) REFERENCES categoria (idCategoria),
     FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario)
 );
@@ -97,6 +97,38 @@ CREATE TABLE palabrasC_producto(
     FOREIGN KEY (idProducto) REFERENCES producto (idProducto) ON DELETE CASCADE
 );
 
+CREATE TABLE Likes(
+    estado NUMBER NOT NULL,
+    idProducto NUMBER NOT NULL,
+    idUsuario NUMBER NOT NULL,
+    
+    FOREIGN KEY (idProducto) REFERENCES producto (idProducto) ON DELETE CASCADE,
+    FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario) ON DELETE CASCADE
+);
+
+CREATE TABLE Comentario(
+    coment VARCHAR(300) NOT NULL,
+    idProducto NUMBER NOT NULL,
+    idUsuario NUMBER NOT NULL,
+    fecha TIMESTAMP,
+    
+    FOREIGN KEY (idProducto) REFERENCES producto (idProducto) ON DELETE CASCADE,
+    FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario) ON DELETE CASCADE
+);
+
+INSERT INTO Comentario (coment, idProducto, idUsuario, fecha) VALUES ('ES LO MEJOR',21,10, LOCALTIMESTAMP(2) );
+
+SELECT * FROM comentario
+SELECT C.coment, C.idProducto, C.idUsuario, U.nombre, U.apellido, C.fecha FROM comentario C INNER JOIN usuario U ON (U.idUsuario=C.idUsuario) WHERE C.idProducto=21;
+DROP TABLE Comentario
+
+INSERT INTO Likes (estado, idProducto, idUsuario) VALUES ()
+SELECT * FROM Likes WHERE idProducto!=21 AND idUsuario!=10
+
+SELECT count(*) AS Megusta FROM Likes WHERE idProducto=21 AND estado=1
+UNION ALL
+SELECT count(*) AS NoMegusta FROM Likes WHERE idProducto=21 AND estado=2;
+
 SELECT PR.idProducto, PR.nombre, PR.precio, PR.pathI  FROM palabrasc_producto PP 
 INNER JOIN producto PR ON (PR.idProducto=PP.idProducto)
 INNER JOIN palabras_C PC ON (PC.idPalabraC=PP.idPalabrac);
@@ -108,7 +140,7 @@ INSERT INTO palabras_C(nombre) VALUES ('DeLL');
 SELECT * FROM palabras_c WHERE nombre='dell';
 
 SELECT * FROM palabrasc_producto;
-SELECT * FROM producto;
+SELECT * FROM usuario;
 
 INSERT INTO palabrasc_producto (idPalabraC, idProducto) VALUES (21,(SELECT idProducto FROM producto P WHERE P.pathI='uploads/38445f55-c06b-4c2a-9516-3e4d38b09bb2.png'));
 
@@ -116,7 +148,7 @@ TRUNCATE TABLE producto;
 INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,idTipo_U, confirmacion) VALUES ('201706357','sis','21232f297a57a5a743894a0e4a801fc3','201706357',TO_DATE('12/01/2016', 'DD/MM/YYYY'),1,1);
 SELECT * FROM usuario;
 
-
+DROP TABLE producto
 
 INSERT INTO usuario (nombre,apellido,pass,email,nacimieno,credito, idTipo_U) VALUES ('201706357','sis','admin','aaronsishernandez@gmail.com',TO_DATE('12/01/2016', 'DD/MM/YYYY'),10000.00,2);
 

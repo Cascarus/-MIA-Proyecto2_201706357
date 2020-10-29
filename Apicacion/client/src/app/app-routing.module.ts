@@ -8,6 +8,8 @@ import { CategoriasComponent } from './components/admin/categorias/categorias.co
 import { NewProductoComponent } from './components/user/new-producto/new-producto.component';
 import { InicioComponent } from './components/user/inicio/inicio.component';
 import { MisProductosComponent } from './components/user/mis-productos/mis-productos.component';
+import { DetalleProductoComponent } from './components/user/detalle-producto/detalle-producto.component';
+import { ComentariosComponent } from './components/user/comentarios/comentarios.component';
 import { AuthGuard  } from './guard/auth.guard';
 import { UserGuard  } from './guard/user.guard';
 import { AllGuard  } from './guard/all.guard';
@@ -55,6 +57,16 @@ const routes: Routes = [
   {
     path: 'user/Inicio',
     component: InicioComponent,
+    canActivate: [UserGuard]
+  },
+  {
+    path: 'user/DetalleProducto/:id',
+    component: DetalleProductoComponent,
+    canActivate: [UserGuard]
+  },
+  {
+    path: 'user/Comentarios/:id',
+    component: ComentariosComponent,
     canActivate: [UserGuard]
   },
   {

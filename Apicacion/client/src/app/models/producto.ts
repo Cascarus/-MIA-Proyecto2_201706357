@@ -8,4 +8,5 @@ export interface Producto{
     idCategoria?: number;
     idUsuario?: number;
     palabras?:string;
+    nombreCA?:string;
 }

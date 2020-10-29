@@ -31,13 +31,11 @@
                 <div class="row">
                     <p class="badge badge-pill badge-info " *ngFor="let pa of product.PALABRAS " [value]="pa">{{pa}}</p>  
                 </div>
-                
-            <p class="card-text "> {{product.PALABRAS}} </p>
             <p class="card-text"> Cat: {{product.NOMBRECA}} </p>
         </div>
         <div class="card-footer">
             <button type="button" class="btn btn-outline-success">Add To Card </button>
-            <button type="button" class="btn btn-outline-success">Detelle</button>
+            <button type="button" class="btn btn-outline-success" (click)="detalleProducto(product.IDPRODUCTO)" >Detelle</button>
         </div>
     </div>
     
