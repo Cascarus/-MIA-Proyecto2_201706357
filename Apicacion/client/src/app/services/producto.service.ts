@@ -62,4 +62,16 @@ export class ProductoService {
   getComentarios(id:string){
     return this.http.get(`${this.url}producto/comentarios/${id}`);
   }
+
+  addDenuncia(objeto:any){
+    return this.http.post(`${this.url}producto/Denuncias`,objeto);
+  }
+
+  getDenuncia(){
+    return this.http.get(`${this.url}producto/Denuncias`);
+  }
+
+  updateDenuncia(objeto:any){
+    return this.http.post( `${this.url}producto/EstadoDenuncia`,objeto);
+  }
 }

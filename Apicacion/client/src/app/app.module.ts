@@ -21,7 +21,10 @@ import { NewProductoComponent } from './components/user/new-producto/new-product
 import { InicioComponent } from './components/user/inicio/inicio.component';
 import { DetalleProductoComponent } from './components/user/detalle-producto/detalle-producto.component';
 import { MisProductosComponent } from './components/user/mis-productos/mis-productos.component';
-import { ComentariosComponent } from './components/user/comentarios/comentarios.component'
+import { ComentariosComponent } from './components/user/comentarios/comentarios.component';
+import { DenunciasComponent } from './components/admin/denuncias/denuncias.component';
+import { DenunciasUsuariosComponent } from './components/admin/denuncias-usuarios/denuncias-usuarios.component';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { ComentariosComponent } from './components/user/comentarios/comentarios.
     InicioComponent,
     DetalleProductoComponent,
     MisProductosComponent,
-    ComentariosComponent
+    ComentariosComponent,
+    DenunciasComponent,
+    DenunciasUsuariosComponent
   ],
   imports: [
     BrowserModule,

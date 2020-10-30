@@ -21,10 +21,17 @@ export class ComentariosComponent implements OnInit {
     idUsuario: this.userService.getSesion().id
   }
 
+  tempDenuncia:any={
+    coment: '',
+    idProducto: 0,
+    idUsuario: this.userService.getSesion().id
+  }
+
   ngOnInit(): void {
     const parm=this.active.snapshot.params;
     this.id=parm.id;
     this.temp.idProducto = Number(this.id);
+    this.tempDenuncia.idProducto = Number(this.id);
     this.getComentarios();
   }
 
@@ -40,6 +47,13 @@ export class ComentariosComponent implements OnInit {
   Comentar(){
     this.productoService.addComentario(this.temp).subscribe(
       res=>console.log(res),
+      err=> console.log(err)
+    );
+  }
+
+  Denunciar(){
+    this.productoService.addDenuncia(this.tempDenuncia).subscribe(
+      res=>{console.log(res), alert('Haz Hecho una denuncia');},
       err=> console.log(err)
     );
   }

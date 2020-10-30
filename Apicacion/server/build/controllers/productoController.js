@@ -279,6 +279,51 @@ var ProductoController = /** @class */ (function () {
             });
         });
     };
+    ProductoController.prototype.addDenuncia = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'INSERT INTO Denuncias (coment, idProducto, idUsuario, fecha) VALUES (:coment,:idProducto,:idUsuario, LOCALTIMESTAMP(2) )';
+                obj = req.body;
+                //recorremos las palabras clave
+                connection.exec(sql, obj, function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.getDenuncias = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, id;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT C.coment, C.idProducto, C.idUsuario, C.fecha, U.nombre, U.apellido, P.nombre AS nombreP FROM Denuncias C INNER JOIN usuario U ON (U.idUsuario=C.idUsuario)  INNER JOIN producto P ON (C.idProducto=P.idProducto) ORDER BY C.fecha ASC';
+                id = req.params.id;
+                //recorremos las palabras clave
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.updateDenuncia = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'UPDATE producto SET estado=:estado WHERE idProducto=:idProducto';
+                obj = req.body;
+                //recorremos las palabras clave
+                connection.exec(sql, obj, function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
     return ProductoController;
 }());
 exports.productoController = new ProductoController();

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { productoController } from '../controllers/productoController'
+import { productoController } from '../controllers/productoController';
 class ProductoRoutes{
     public router: Router = Router();
 
@@ -25,6 +25,10 @@ class ProductoRoutes{
         //Comentarios
       this.router.post('/comentario', productoController.addComentario);
       this.router.get('/comentarios/:id', productoController.getComentario);
+        //Denuncias
+      this.router.post('/Denuncias', productoController.addDenuncia);
+      this.router.get('/Denuncias', productoController.getDenuncias);
+      this.router.post('/EstadoDenuncia', productoController.updateDenuncia);
     }
 }
 

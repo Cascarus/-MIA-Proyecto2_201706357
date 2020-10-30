@@ -1,22 +1,45 @@
 <hr>
 <div class="col-md-11 overflow-auto">
     <div class="jumbotron text-white">
+        
         <h1 class="display-6">Comentarios</h1>
         
         <div class="toast show " *ngFor="let coment of comentarios">
             <div class="toast-header">
               <strong class="mr-auto">{{coment.NOMBRE}} {{coment.APELLIDO}}</strong>
               <small>{{coment.FECHA}}</small>
-                
             </div>
             <div class="toast-body">
               {{coment.COMENT}}
             </div>
-          </div>
+        </div>
         
         <textarea class="form-control" id="exampleTextarea" rows="3" [(ngModel)]="temp.coment"  [ngModelOptions]="{standalone: true}"></textarea>
-        <p class="lead">
+          <p class="lead">
             <a class="btn btn-primary btn-lg" (click)="Comentar()" role="button">Comentar</a>
+            <a class="btn btn-danger btn-lg"  role="button" data-toggle="modal" data-target="#exampleModalCenter">Denunciar</a>
           </p>
+
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Ingrese su denuncia</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <input type="email" class="form-control form-control-user" [(ngModel)]="tempDenuncia.coment" type="text" [ngModelOptions]="{standalone: true}" aria-describedby="emailHelp" placeholder="¿Que paso?">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-danger" (click)="Denunciar()" >Denunciar</button>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
 </div>

@@ -170,8 +170,36 @@ class ProductoController {
             res.json(result);
         });
     }
-    
 
+    public async addDenuncia(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'INSERT INTO Denuncias (coment, idProducto, idUsuario, fecha) VALUES (:coment,:idProducto,:idUsuario, LOCALTIMESTAMP(2) )';
+        var obj = req.body;
+         //recorremos las palabras clave
+        connection.exec(sql,obj,function(result:any){
+           res.json(result);
+        });
+    }
+
+    public async getDenuncias(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'SELECT C.coment, C.idProducto, C.idUsuario, C.fecha, U.nombre, U.apellido, P.nombre AS nombreP FROM Denuncias C INNER JOIN usuario U ON (U.idUsuario=C.idUsuario)  INNER JOIN producto P ON (C.idProducto=P.idProducto) ORDER BY C.fecha ASC';
+        var id = req.params.id;
+         //recorremos las palabras clave
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async updateDenuncia(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'UPDATE producto SET estado=:estado WHERE idProducto=:idProducto';
+        var obj = req.body;
+         //recorremos las palabras clave
+        connection.exec(sql,obj,function(result:any){
+           res.json(result);
+        });
+    }
 }
 
 export const productoController = new ProductoController();

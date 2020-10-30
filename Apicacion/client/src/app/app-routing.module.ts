@@ -10,6 +10,8 @@ import { InicioComponent } from './components/user/inicio/inicio.component';
 import { MisProductosComponent } from './components/user/mis-productos/mis-productos.component';
 import { DetalleProductoComponent } from './components/user/detalle-producto/detalle-producto.component';
 import { ComentariosComponent } from './components/user/comentarios/comentarios.component';
+import { DenunciasComponent } from './components/admin/denuncias/denuncias.component';
+import { DenunciasUsuariosComponent } from './components/admin/denuncias-usuarios/denuncias-usuarios.component';
 import { AuthGuard  } from './guard/auth.guard';
 import { UserGuard  } from './guard/user.guard';
 import { AllGuard  } from './guard/all.guard';
@@ -72,6 +74,11 @@ const routes: Routes = [
   {
     path: 'admin/categorias',
     component: CategoriasComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/Denuncias',
+    component: DenunciasUsuariosComponent,
     canActivate: [AuthGuard]
   },
   

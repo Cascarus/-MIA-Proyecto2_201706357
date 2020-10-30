@@ -26,6 +26,10 @@ var ProductoRoutes = /** @class */ (function () {
         //Comentarios
         this.router.post('/comentario', productoController_1.productoController.addComentario);
         this.router.get('/comentarios/:id', productoController_1.productoController.getComentario);
+        //Denuncias
+        this.router.post('/Denuncias', productoController_1.productoController.addDenuncia);
+        this.router.get('/Denuncias', productoController_1.productoController.getDenuncias);
+        this.router.post('/EstadoDenuncia', productoController_1.productoController.updateDenuncia);
     };
     return ProductoRoutes;
 }());

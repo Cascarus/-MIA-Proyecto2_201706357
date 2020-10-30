@@ -116,10 +116,22 @@ CREATE TABLE Comentario(
     FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario) ON DELETE CASCADE
 );
 
-INSERT INTO Comentario (coment, idProducto, idUsuario, fecha) VALUES ('ES LO MEJOR',21,10, LOCALTIMESTAMP(2) );
+CREATE TABLE Denuncias(
+    coment VARCHAR(300) NOT NULL,
+    idProducto NUMBER NOT NULL,
+    idUsuario NUMBER NOT NULL,
+    fecha TIMESTAMP,
+    
+    FOREIGN KEY (idProducto) REFERENCES producto (idProducto) ON DELETE CASCADE,
+    FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario) ON DELETE CASCADE
+);
+
+Select*From Denuncias
+
+INSERT INTO Denuncias (coment, idProducto, idUsuario, fecha) VALUES ('ES LO MEJOR',21,10, LOCALTIMESTAMP(2) );
 
 SELECT * FROM comentario
-SELECT C.coment, C.idProducto, C.idUsuario, U.nombre, U.apellido, C.fecha FROM comentario C INNER JOIN usuario U ON (U.idUsuario=C.idUsuario) WHERE C.idProducto=21;
+SELECT C.coment, C.idProducto, C.idUsuario, U.nombre, U.apellido,  FROM comentario C INNER JOIN usuario U ON (U.idUsuario=C.idUsuario) WHERE C.idProducto=21;
 DROP TABLE Comentario
 
 INSERT INTO Likes (estado, idProducto, idUsuario) VALUES ()

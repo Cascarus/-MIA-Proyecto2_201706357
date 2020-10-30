@@ -1,0 +1,14 @@
+<hr>
+
+<div class="card bg-light mb-8" style="max-width: 50rem;" *ngFor="let den of denuncias">
+    <div class="card-header">Producto: {{den.NOMBREP}} <small>:{{den.FECHA}}</small> </div>
+    <div class="card-body">
+      <p class="card-text"> Usuario: {{den.NOMBRE}} {{den.Apellido}} </p>
+      <h5 class="card-title text-success">Denunca:</h5>
+      <p class="card-text">{{den.COMENT}}</p>
+       <div class="card-footer">
+        <button type="button" class="btn btn-outline-success" (click)="updateDenuncias(1,den.IDPRODUCTO)" >Aceptar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="updateDenuncias(0,den.IDPRODUCTO)">Denegar</button>
+       </div>
+    </div>
+</div>
