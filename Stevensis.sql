@@ -148,14 +148,30 @@ CREATE TABLE detalle_factura(
     idFactura NUMBER,
     idProducto NUMBER,
     cantidad NUMBER,
-    
+    subtotal FLOAT,
     FOREIGN KEY (idProducto) REFERENCES producto (idProducto) ON DELETE CASCADE,
     FOREIGN KEY (idFactura) REFERENCES factura (idFactura) ON DELETE CASCADE
 );
 
-SELECT * FROM factura;  
+CREATE OR REPLACE TRIGGER actualizacionCredito 
+AFTER INSERT ON detalle_factura FOR EACH ROW
+BEGIN
+UPDATE usuario U set U.credito = (U.credito-:new.subtotal) WHERE U.idUsuario= (SELECT idUsuario FROM factura WHERE :new.idFactura=factura.idFactura);
+UPDATE usuario U set U.credito = (U.credito+:new.subtotal) WHERE U.idUsuario= (SELECT idUsuario FROM producto WHERE :new.idProducto=producto.idProducto);
+END actualizacionCredito;
 
-INSERT INTO detalle_
+delete  detalle_factura;
+delete  factura;
+
+SELECT * FROM usuario
+INSERT INTO factura (idUsuario,fecha) VALUES (21,TO_TIMESTAMP('1/11/2020 23:41:03', 'DD/MM/YYYY HH24:MI:SS'));
+
+SELECT * FROM factura;
+SELECT * FROM detalle_factura;  
+DELETE factura
+
+INSERT INTO detalle_factura (idFactura, idProducto, cantidad, subtotal) VALUES 
+( (SELECT idFactura FROM factura WHERE idUsuario=:idUsuario AND fecha=TO_DATE(:fecha, 'DD/MM/YYYY HH24:MI:SS')),:idProducto,:cantidad,:subtotal );
 
 
 INSERT INTO factura (idUsuario,fecha) VALUES (:idUsuario,LOCALTIMESTAMP(2));

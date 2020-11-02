@@ -1,7 +1,7 @@
 export default{
 
     auth: {
-        user: '--',
+        user: '---',
         pass: '--'
       },
 }
