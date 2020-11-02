@@ -2,6 +2,6 @@ export default{
 
     auth: {
         user: '--',
-        pass: '---'
+        pass: '--'
       },
 }

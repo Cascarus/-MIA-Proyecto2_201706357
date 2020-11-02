@@ -20,7 +20,11 @@ export class InicioComponent implements OnInit {
   palabraR:any='';
   idCategoria:any='';
   idOrderBY:any='';
-
+  tempC:any={
+    idUsuario:0,
+    idProducto:0,
+    cantidad:0
+  }
   ngOnInit(): void {
     this.getCategorias();
     this.productoService.getProducto(this.userService.getSesion().id).subscribe(
@@ -28,11 +32,7 @@ export class InicioComponent implements OnInit {
         this.convertListPalabras();
       },
       err=> console.log(err)
-      
     );
-    
-    
-    
   }
 
   convertListPalabras(){
@@ -83,6 +83,24 @@ export class InicioComponent implements OnInit {
 
   detalleProducto(id:any){
     this.router.navigate(['user/DetalleProducto/'+id]);
+  }
+
+  prueba(idP){
+    this.tempC.idProducto=idP;
+    console.log(this.tempC);
+  }
+
+  addToCar(){
+    this.tempC.idUsuario=Number(this.userService.getSesion().id);
+    this.tempC.cantidad= Number(this.tempC.cantidad);
+    console.log(this.tempC)
+    this.productoService.addCarrito(this.tempC).subscribe(
+      res=> {alert('Producto añadido'); console.log(res);
+      },
+      err => console.log(err)
+      
+    );
+    
   }
 
 }

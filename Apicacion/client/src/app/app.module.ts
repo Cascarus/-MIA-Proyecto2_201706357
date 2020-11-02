@@ -24,6 +24,7 @@ import { MisProductosComponent } from './components/user/mis-productos/mis-produ
 import { ComentariosComponent } from './components/user/comentarios/comentarios.component';
 import { DenunciasComponent } from './components/admin/denuncias/denuncias.component';
 import { DenunciasUsuariosComponent } from './components/admin/denuncias-usuarios/denuncias-usuarios.component';
+import { CarritoComponent } from './components/user/carrito/carrito.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { DenunciasUsuariosComponent } from './components/admin/denuncias-usuario
     MisProductosComponent,
     ComentariosComponent,
     DenunciasComponent,
-    DenunciasUsuariosComponent
+    DenunciasUsuariosComponent,
+    CarritoComponent
   ],
   imports: [
     BrowserModule,

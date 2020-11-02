@@ -30,6 +30,15 @@ var ProductoRoutes = /** @class */ (function () {
         this.router.post('/Denuncias', productoController_1.productoController.addDenuncia);
         this.router.get('/Denuncias', productoController_1.productoController.getDenuncias);
         this.router.post('/EstadoDenuncia', productoController_1.productoController.updateDenuncia);
+        this.router.post('/SendMail', productoController_1.productoController.emailSend);
+        //Carito
+        this.router.post('/Carrito/add', productoController_1.productoController.addCarrito);
+        this.router.get('/Carrito/all/:id', productoController_1.productoController.getCarritoOneUser);
+        this.router.get('/Carrito/Delete/:id', productoController_1.productoController.deleteOneCarrito);
+        this.router.get('/Carrito/DeleteAll/:id', productoController_1.productoController.deleteAllCarrito);
+        //Compra
+        this.router.post('/Compra/add', productoController_1.productoController.addCompra);
+        this.router.post('/Compra/correo', productoController_1.productoController.sendEmailCompra);
     };
     return ProductoRoutes;
 }());

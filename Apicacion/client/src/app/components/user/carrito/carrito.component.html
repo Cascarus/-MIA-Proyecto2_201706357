@@ -1,0 +1,30 @@
+<hr>
+<div class="container text-center">
+    <h1>Su carrito</h1>
+    <hr>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+              <th scope="col">Producto</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Precio Unitario</th>
+              <th scope="col">Sub Total</th>
+              <th scope="col">X</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-light" *ngFor="let product of carrito">
+                <th scope="row">{{product.NOMBRE}}</th>
+                <td>{{product.CANTIDAD}}</td>
+                <td>{{product.PRECIO}}</td>
+                <td>{{product.SUBTOTAL}}</td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="deleteOneProduct(product.IDCARRITO)">X</button></td>
+              </tr>
+        </tbody>
+    </table>
+    <h2>Total: {{totalC}}</h2>
+        <button type="button" class="btn btn-success" (click)="comprar()">Comprar</button>
+        <button type="button" class="btn btn-danger" (click)="deleteAllCarrito()">Limpiar</button>
+    
+</div>  
+

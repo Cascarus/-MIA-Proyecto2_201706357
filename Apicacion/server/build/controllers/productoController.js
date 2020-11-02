@@ -41,6 +41,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productoController = void 0;
 var database_1 = __importDefault(require("../database"));
+var nodemailer_1 = __importDefault(require("nodemailer")); //Envia correos, references https://nodemailer.com/about/
+var email_1 = __importDefault(require("../email"));
 var ProductoController = /** @class */ (function () {
     function ProductoController() {
         //Esta ruta sera para enviar el correo para cambiar la contrania
@@ -299,7 +301,11 @@ var ProductoController = /** @class */ (function () {
             var connection, sql, id;
             return __generator(this, function (_a) {
                 connection = database_1.default.db2();
-                sql = 'SELECT C.coment, C.idProducto, C.idUsuario, C.fecha, U.nombre, U.apellido, P.nombre AS nombreP FROM Denuncias C INNER JOIN usuario U ON (U.idUsuario=C.idUsuario)  INNER JOIN producto P ON (C.idProducto=P.idProducto) ORDER BY C.fecha ASC';
+                sql = 'SELECT C.coment, C.idProducto, C.idUsuario, C.fecha, U.nombre, U.apellido, P.nombre AS nombreP, P.idUsuario AS idUP, J.nombre AS nombreU2, J.apellido AS apellido2, J.email AS email FROM Denuncias C ' +
+                    'INNER JOIN usuario U ON (U.idUsuario=C.idUsuario) ' +
+                    'INNER JOIN producto P ON (C.idProducto=P.idProducto) ' +
+                    'INNER JOIN usuario J ON (J.idUsuario=P.idUsuario) ' +
+                    'ORDER BY C.fecha ASC';
                 id = req.params.id;
                 //recorremos las palabras clave
                 connection.exec(sql, [], function (result) {
@@ -321,6 +327,195 @@ var ProductoController = /** @class */ (function () {
                     res.json(result);
                 });
                 return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.emailSend = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var transporter, obj, info;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        transporter = nodemailer_1.default.createTransport({
+                            service: "gmail",
+                            auth: email_1.default.auth,
+                        });
+                        obj = req.body;
+                        console.log(obj);
+                        return [4 /*yield*/, transporter.sendMail({
+                                from: "familyu3213@gmail.com",
+                                to: obj.email,
+                                subject: "Bloqueo de publicacion",
+                                text: " Su publicacion " + obj.nombrep,
+                                html: "<br><h1> Su publicacion " + obj.nombrep + " ah sido Bloqueado .</h1>" + "<br>" +
+                                    "<p> Estimado cliente " + obj.nombreU2 + " " + obj.apellido2 + " Su publicacion de este producto flue bloqueada </p>" +
+                                    "<p> por algunas denuncias y no cumplir con nuestras especificaciones </p>" +
+                                    "<br>" +
+                                    "<br>" +
+                                    "<br><img src=\"https://peru21.pe/resizer/90jpNbYzwoLyqGFQBCEzBerT_QM=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/3RO6LRMUIJHHZMMKHOHIUPHXZU.PNG\"/>",
+                            })];
+                    case 1:
+                        info = _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProductoController.prototype.addCarrito = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'INSERT INTO Carrito (idUsuario, idProducto, cantidad, fecha) VALUES (:idUsuario, :idProducto, :cantidad, LOCALTIMESTAMP(2))';
+                obj = req.body;
+                //recorremos las palabras clave
+                connection.exec(sql, obj, function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.getCarritoOneUser = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, id;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT C.idCarrito, P.idProducto, P.nombre, P.precio, C.cantidad, C.fecha, C.idUsuario, (C.Cantidad*P.precio) AS subtotal, P.pathI, U.nombre AS nombreUP, U.email AS emailUP FROM Carrito C ' +
+                    'INNER JOIN producto P ON (P.idProducto=C.idProducto) ' +
+                    'INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) ' +
+                    'WHERE C.idUsuario=:ID';
+                id = req.params.id;
+                //recorremos las palabras clave
+                connection.exec(sql, [id], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.deleteOneCarrito = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, id;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'DELETE Carrito WHERE idCarrito=:ID';
+                id = req.params.id;
+                connection.exec(sql, [id], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.deleteAllCarrito = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, id;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'DELETE Carrito WHERE idUsuario=:ID';
+                id = req.params.id;
+                console.log(id);
+                connection.exec(sql, [id], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.addCompra = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'INSERT INTO factura (idUsuario,fecha) VALUES (:idUsuario,TO_TIMESTAMP(:fecha, \'DD/MM/YYYY HH24:MI:SS\'))';
+                obj = req.body;
+                // console.log(obj);
+                //recorremos las palabras clave
+                connection.exec(sql, [obj.idUsuario, obj.fecha], function (result) {
+                    var _loop_1 = function (i) {
+                        var element = obj.productos[i];
+                        sql = 'INSERT INTO detalle_factura (idFactura, idProducto, cantidad, subtotal) VALUES ' +
+                            '( (SELECT idFactura FROM factura WHERE idUsuario=:idUsuario AND fecha=TO_TIMESTAMP(:fecha, \'DD/MM/YYYY HH24:MI:SS\')),:idProducto,:cantidad,:subtotal ) ';
+                        connection.exec(sql, [obj.idUsuario, obj.fecha, element.IDPRODUCTO, element.CANTIDAD, element.SUBTOTAL], function (result) {
+                            console.log('añadido detalle');
+                            if (i == obj.productos.length - 1) {
+                                res.json(result);
+                            }
+                        });
+                    };
+                    for (var i = 0; i < obj.productos.length; i++) {
+                        _loop_1(i);
+                    }
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ProductoController.prototype.sendEmailCompra = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var transporter, table, obj, i, element, detalleFactura, i, element, info;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log('/////*------------------- Entra');
+                        transporter = nodemailer_1.default.createTransport({
+                            service: "gmail",
+                            auth: email_1.default.auth,
+                        });
+                        table = '';
+                        table += '<div class="container text-center"> <table> <tr> <th>Producto</th> <th>Cantidad</th> <th>Precio Unitario</th> <th>Sub Total</th>    </tr> ';
+                        obj = req.body;
+                        for (i = 0; i < obj.productos.length; i++) {
+                            element = obj.productos[i];
+                            table += ' <tr> ' +
+                                ' <td>' + element.NOMBRE + '</td> ' +
+                                ' <td>' + element.CANTIDAD + '</td> ' +
+                                ' <td>' + element.PRECIO + '</td> ' +
+                                ' <td>' + element.SUBTOTAL + '</td> ' +
+                                ' </tr> ';
+                        }
+                        table += ' </table> </div> ';
+                        return [4 /*yield*/, transporter.sendMail({
+                                from: "familyu3213@gmail.com",
+                                to: obj.correoComprador,
+                                subject: "Tu compra se ah realizado con exito",
+                                text: " Detalle de compra ",
+                                html: " <br><h1> Su compra del dia " + obj.fecha + " ah sido realizada con exito .</h1>" + "<br> " +
+                                    " <h3 class=\"text-center\"> Detalle </h3>  <br> " +
+                                    table + ' <br> ' +
+                                    ' <h2 class="text-center"> Total: ' + obj.total + ' creditos </h2> ' +
+                                    " <br><img src=\"https://i.pinimg.com/originals/ed/bf/28/edbf289403dd7db09f07f6dc0c7b8456.jpg\"/> ",
+                            })];
+                    case 1:
+                        detalleFactura = _a.sent();
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < obj.productos.length)) return [3 /*break*/, 5];
+                        element = obj.productos[i];
+                        return [4 /*yield*/, transporter.sendMail({
+                                from: "familyu3213@gmail.com",
+                                to: element.EMAILUP,
+                                subject: "Han comprado un producto suyo",
+                                text: " Su producto " + element.NOMBRE,
+                                html: "<br><h1> Su publicacion " + element.NOMBRE + " ah sido comprado el dia " + obj.fecha + ".</h1>" + "<br>" +
+                                    "<p> Estimado cliente " + element.NOMBREUP + " Ah sido comprado su producto " + element.NOMBRE + " </p>" +
+                                    "<p> por una cantidad de " + element.CANTIDAD + " dando un total de " + element.SUBTOTAL + " creditos que seran acreditados a su cuenta</p>" +
+                                    "<br>" +
+                                    "<br>" +
+                                    "<br><img src=\"https://megalopolismx.com/images/noticias/201611/shcp-lanza-comunicado.jpg\"/>",
+                            })];
+                    case 3:
+                        info = _a.sent();
+                        _a.label = 4;
+                    case 4:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 5:
+                        res.json({ text: 'Se enviaron los correos' });
+                        return [2 /*return*/];
+                }
             });
         });
     };

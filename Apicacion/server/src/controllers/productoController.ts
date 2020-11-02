@@ -183,7 +183,11 @@ class ProductoController {
 
     public async getDenuncias(req: Request, res: Response){
         var connection = pool.db2();
-        var sql = 'SELECT C.coment, C.idProducto, C.idUsuario, C.fecha, U.nombre, U.apellido, P.nombre AS nombreP FROM Denuncias C INNER JOIN usuario U ON (U.idUsuario=C.idUsuario)  INNER JOIN producto P ON (C.idProducto=P.idProducto) ORDER BY C.fecha ASC';
+        var sql = 'SELECT C.coment, C.idProducto, C.idUsuario, C.fecha, U.nombre, U.apellido, P.nombre AS nombreP, P.idUsuario AS idUP, J.nombre AS nombreU2, J.apellido AS apellido2, J.email AS email FROM Denuncias C '+
+        'INNER JOIN usuario U ON (U.idUsuario=C.idUsuario) '+ 
+        'INNER JOIN producto P ON (C.idProducto=P.idProducto) '+
+        'INNER JOIN usuario J ON (J.idUsuario=P.idUsuario) '+
+        'ORDER BY C.fecha ASC';
         var id = req.params.id;
          //recorremos las palabras clave
         connection.exec(sql,[],function(result:any){
@@ -200,6 +204,145 @@ class ProductoController {
            res.json(result);
         });
     }
+
+    public async emailSend(req: Request, res:Response){
+        let transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: email.auth,
+          });
+          
+          var obj = req.body;
+          console.log(obj);
+          let info = await transporter.sendMail({           
+                from: "familyu3213@gmail.com", // sender address
+                to: obj.email, // list of receivers
+                subject: "Bloqueo de publicacion", // Subject line
+                text: " Su publicacion "+obj.nombrep, // plain text body
+                html: "<br><h1> Su publicacion "+ obj.nombrep+" ah sido Bloqueado .</h1>"+"<br>"+
+                "<p> Estimado cliente "+obj.nombreU2+" "+ obj.apellido2+" Su publicacion de este producto flue bloqueada </p>"+
+                "<p> por algunas denuncias y no cumplir con nuestras especificaciones </p>"+
+                "<br>"+ 
+                "<br>"+
+                "<br><img src=\"https://peru21.pe/resizer/90jpNbYzwoLyqGFQBCEzBerT_QM=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/3RO6LRMUIJHHZMMKHOHIUPHXZU.PNG\"/>", // html body
+              });
+    }
+
+    public async addCarrito(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'INSERT INTO Carrito (idUsuario, idProducto, cantidad, fecha) VALUES (:idUsuario, :idProducto, :cantidad, LOCALTIMESTAMP(2))';
+        var obj = req.body;
+         //recorremos las palabras clave
+        connection.exec(sql,obj,function(result:any){
+           res.json(result);
+        });
+    }
+
+    public async getCarritoOneUser(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'SELECT C.idCarrito, P.idProducto, P.nombre, P.precio, C.cantidad, C.fecha, C.idUsuario, (C.Cantidad*P.precio) AS subtotal, P.pathI, U.nombre AS nombreUP, U.email AS emailUP FROM Carrito C '+
+        'INNER JOIN producto P ON (P.idProducto=C.idProducto) '+
+        'INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) '+
+        'WHERE C.idUsuario=:ID';
+        var id = req.params.id;
+         //recorremos las palabras clave
+        connection.exec(sql,[id],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async deleteOneCarrito(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'DELETE Carrito WHERE idCarrito=:ID';
+        var id = req.params.id;
+        connection.exec(sql,[id],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async deleteAllCarrito(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'DELETE Carrito WHERE idUsuario=:ID';
+        var id = req.params.id;
+        console.log(id);
+        
+        connection.exec(sql,[id],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async addCompra(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = 'INSERT INTO factura (idUsuario,fecha) VALUES (:idUsuario,TO_TIMESTAMP(:fecha, \'DD/MM/YYYY HH24:MI:SS\'))';
+        var obj = req.body;
+       // console.log(obj);
+         //recorremos las palabras clave
+        connection.exec(sql,[obj.idUsuario,obj.fecha],function(result:any){
+            for (let i = 0; i < obj.productos.length; i++) {
+                const element = obj.productos[i];
+                sql='INSERT INTO detalle_factura (idFactura, idProducto, cantidad, subtotal) VALUES '+
+                '( (SELECT idFactura FROM factura WHERE idUsuario=:idUsuario AND fecha=TO_TIMESTAMP(:fecha, \'DD/MM/YYYY HH24:MI:SS\')),:idProducto,:cantidad,:subtotal ) ';
+                connection.exec(sql,[obj.idUsuario,obj.fecha,element.IDPRODUCTO,element.CANTIDAD,element.SUBTOTAL],function(result:any){
+                    console.log('añadido detalle');
+                    if(i==obj.productos.length-1){res.json(result);}
+                });
+            }
+           
+        });
+    }
+
+    public async sendEmailCompra(req: Request, res:Response){
+        console.log('/////*------------------- Entra');
+        
+        let transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: email.auth,
+          });
+          var table:string='';//contrendra la tabla del detalle
+          table+='<div class="container text-center"> <table> <tr> <th>Producto</th> <th>Cantidad</th> <th>Precio Unitario</th> <th>Sub Total</th>    </tr> ';
+          var obj = req.body;
+          for (let i = 0; i < obj.productos.length; i++) {
+              const element = obj.productos[i];
+              table+=' <tr> '+
+              ' <td>'+element.NOMBRE+'</td> '+
+              ' <td>'+element.CANTIDAD+'</td> '+
+              ' <td>'+element.PRECIO+'</td> '+
+              ' <td>'+element.SUBTOTAL+'</td> '+
+              ' </tr> ';
+          }
+          table+=' </table> </div> ';
+          //Correo de factura a comprador
+          let detalleFactura = await transporter.sendMail({           
+            from: "familyu3213@gmail.com", // sender address
+            to: obj.correoComprador, // list of receivers
+            subject: "Tu compra se ah realizado con exito", // Subject line
+            text: " Detalle de compra ", // plain text body
+            html: " <br><h1> Su compra del dia "+ obj.fecha+" ah sido realizada con exito .</h1>"+"<br> "+
+            " <h3 class=\"text-center\"> Detalle </h3>  <br> "+
+            table+ ' <br> '+
+            ' <h2 class="text-center"> Total: '+obj.total+' creditos </h2> '+
+            " <br><img src=\"https://i.pinimg.com/originals/ed/bf/28/edbf289403dd7db09f07f6dc0c7b8456.jpg\"/> ", // html body
+          });
+          //Correos a dueños de productos
+          for (let i = 0; i < obj.productos.length; i++) {
+              const element = obj.productos[i];
+              let info = await transporter.sendMail({           
+                from: "familyu3213@gmail.com", // sender address
+                to: element.EMAILUP, // list of receivers
+                subject: "Han comprado un producto suyo", // Subject line
+                text: " Su producto "+element.NOMBRE, // plain text body
+                html: "<br><h1> Su publicacion "+ element.NOMBRE+" ah sido comprado el dia "+obj.fecha+".</h1>"+"<br>"+
+                "<p> Estimado cliente "+element.NOMBREUP+" Ah sido comprado su producto "+element.NOMBRE+ " </p>"+
+                "<p> por una cantidad de "+element.CANTIDAD+ " dando un total de "+element.SUBTOTAL+ " creditos que seran acreditados a su cuenta</p>"+
+                "<br>"+ 
+                "<br>"+
+                "<br><img src=\"https://megalopolismx.com/images/noticias/201611/shcp-lanza-comunicado.jpg\"/>", // html body
+              });
+          }    
+          res.json({text:'Se enviaron los correos'}); 
+    }
+
+
+
 }
 
 export const productoController = new ProductoController();

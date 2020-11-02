@@ -29,6 +29,15 @@ class ProductoRoutes{
       this.router.post('/Denuncias', productoController.addDenuncia);
       this.router.get('/Denuncias', productoController.getDenuncias);
       this.router.post('/EstadoDenuncia', productoController.updateDenuncia);
+      this.router.post('/SendMail', productoController.emailSend);
+        //Carito
+      this.router.post('/Carrito/add', productoController.addCarrito);
+      this.router.get('/Carrito/all/:id', productoController.getCarritoOneUser);
+      this.router.get('/Carrito/Delete/:id', productoController.deleteOneCarrito);
+      this.router.get('/Carrito/DeleteAll/:id', productoController.deleteAllCarrito);
+        //Compra
+      this.router.post('/Compra/add', productoController.addCompra);
+      this.router.post('/Compra/correo', productoController.sendEmailCompra)
     }
 }
 

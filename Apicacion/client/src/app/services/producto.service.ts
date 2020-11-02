@@ -74,4 +74,33 @@ export class ProductoService {
   updateDenuncia(objeto:any){
     return this.http.post( `${this.url}producto/EstadoDenuncia`,objeto);
   }
+
+  sendEmail(objeto:any){
+    return this.http.post( `${this.url}producto/SendMail`,objeto);
+  }
+
+  addCarrito(objeto:any){
+    return this.http.post(`${this.url}producto/Carrito/add`,objeto)
+  }
+  
+  getCarrito(id:string){
+    return this.http.get(`${this.url}producto/Carrito/all/${id}`);
+  }
+
+  deleteOneProduct(id:string){
+    return this.http.get(`${this.url}producto/Carrito/Delete/${id}`);
+  }
+
+  deleteAllCarrito(id:string){
+    return this.http.get(`${this.url}producto/Carrito/DeleteAll/${id}`);
+  }
+
+  addCompra(objeto:any){
+    return this.http.post(`${this.url}producto/Compra/add`,objeto);
+  }
+
+  sendEmailCOmpra(objeto:any){
+    return this.http.post(`${this.url}producto/Compra/correo`,objeto);
+  }
+
 }

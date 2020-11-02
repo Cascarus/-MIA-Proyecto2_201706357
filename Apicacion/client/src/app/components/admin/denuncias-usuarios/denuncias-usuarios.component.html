@@ -7,8 +7,8 @@
       <h5 class="card-title text-success">Denunca:</h5>
       <p class="card-text">{{den.COMENT}}</p>
        <div class="card-footer">
-        <button type="button" class="btn btn-outline-success" (click)="updateDenuncias(1,den.IDPRODUCTO)" >Aceptar</button>
-        <button type="button" class="btn btn-outline-danger" (click)="updateDenuncias(0,den.IDPRODUCTO)">Denegar</button>
+        <button type="button" class="btn btn-outline-success" (click)="updateDenuncias(1,den.IDPRODUCTO,den.EMAIL,den.NOMBREP,den.NOMBREU2,den.APELLIDO2)" >Aceptar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="updateDenuncias(0,den.IDPRODUCTO,den.EMAIL)">Denegar</button>
        </div>
     </div>
 </div>
