@@ -95,12 +95,26 @@ export class InicioComponent implements OnInit {
     this.tempC.cantidad= Number(this.tempC.cantidad);
     console.log(this.tempC)
     this.productoService.addCarrito(this.tempC).subscribe(
-      res=> {alert('Producto añadido'); console.log(res);
+      res=> {alert('Producto añadido'); console.log(res); this.addBitacora(' Se añadio el este producto '+this.tempC.idProducto+' al carrito');
       },
       err => console.log(err)
       
     );
     
   }
+
+  addBitacora(desc:string){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:desc
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
+    );
+  }
+
 
 }

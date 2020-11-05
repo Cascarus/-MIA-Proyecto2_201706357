@@ -29,10 +29,12 @@ export class NavigationComponent implements OnInit {
     document.getElementById('Perfil_U').style.display="none";
     document.getElementById('Categorias_A').style.display="true";
     document.getElementById('Denuncia_A').style.display="true";
+    document.getElementById('Reportes_A').style.display="true";
     document.getElementById('newProducto_U').style.display="none";
     document.getElementById('Inicio_U').style.display="none";
     document.getElementById('MyProductos_U').style.display="none";
     document.getElementById('Carrito_U').style.display="none";
+    
   }
 
   userV(){
@@ -43,6 +45,7 @@ export class NavigationComponent implements OnInit {
     document.getElementById('Carrito_U').style.display="true";
     document.getElementById('Denuncia_A').style.display="none";
     document.getElementById('Categorias_A').style.display="none";
+    document.getElementById('Reportes_A').style.display="none";
   }
 
   allV(){
@@ -55,6 +58,7 @@ export class NavigationComponent implements OnInit {
     document.getElementById('Categorias_A').style.display="none";
     document.getElementById('Denuncia_A').style.display="none";
     document.getElementById('Carrito_U').style.display="none";
+    document.getElementById('Reportes_A').style.display="none";
   }
 
   ngOnInit(): void {

@@ -46,14 +46,27 @@ export class ComentariosComponent implements OnInit {
 
   Comentar(){
     this.productoService.addComentario(this.temp).subscribe(
-      res=>console.log(res),
+      res=>{console.log(res); this.addBitacora('Este usuario ah hecho un comentario en el producto '+this.temp.idProducto);  },
       err=> console.log(err)
+    );
+  }
+
+  addBitacora(desc:string){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:desc
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
     );
   }
 
   Denunciar(){
     this.productoService.addDenuncia(this.tempDenuncia).subscribe(
-      res=>{console.log(res), alert('Haz Hecho una denuncia');},
+      res=>{console.log(res), alert('Haz Hecho una denuncia'); this.addBitacora('Este usuario ah hecho una denuncia al producto '+this.temp.idProducto);},
       err=> console.log(err)
     );
   }

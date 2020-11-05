@@ -80,6 +80,7 @@ class UserController {
                     rol: result[0].IDTIPO_U,
                     confirmacion: result[0].CONFIRMACION,
                     idPais: result[0].IDPAIS,
+                    email: result[0].EMAIL
                 };
                 res.json(tempUser)
             }

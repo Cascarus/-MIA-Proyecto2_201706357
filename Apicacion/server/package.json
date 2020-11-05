@@ -19,6 +19,7 @@
     "@types/multer": "^1.4.4",
     "@types/nodemailer": "^6.4.0",
     "@types/oracledb": "^5.0.0",
+    "@types/socket.io": "^2.1.11",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
@@ -28,6 +29,7 @@
     "nodemailer": "^6.4.14",
     "oracledb": "github:oracle/node-oracledb#v5.0.0",
     "promise-mysql": "^3.3.1",
+    "socket.io": "^2.3.0",
     "uuid": "^8.3.1"
   },
   "devDependencies": {

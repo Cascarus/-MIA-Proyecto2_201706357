@@ -77,13 +77,26 @@ export class NewProductoComponent implements OnInit {
     console.log(this.producto);
     if(this.producto.nombre!='' && this.producto.detalle!='' && this.producto.precio!='' && this.producto.idCategoria!=0){
       this.productoService.addProducto(this.producto).subscribe(
-        res=>{ console.log(res); },
+        res=>{ console.log(res); this.addBitacora(this.producto.nombre); alert('Producto añadido');},
         err=>console.log(err)
       );
     }else{
       alert('Es necesario ingresar todos los campos');
     }
     
+  }
+
+  addBitacora(productoN:string){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:'Este usuario ah aniadido un nuevo producto '+productoN
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
+    );
   }
 
   onPhotoSelected(event: HtmlInputEvent): void {

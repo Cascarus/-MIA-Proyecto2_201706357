@@ -1,6 +1,8 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../../services/producto.service';
+import { UserService } from '../../../services/user.service';
+
 @Component({
   selector: 'app-denuncias-usuarios',
   templateUrl: './denuncias-usuarios.component.html',
@@ -8,7 +10,7 @@ import { ProductoService } from '../../../services/producto.service';
 })
 export class DenunciasUsuariosComponent implements OnInit {
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService, private userService: UserService) { }
   denuncias:any=[];
   ngOnInit(): void {
       this.getDenuncias();
@@ -46,6 +48,7 @@ export class DenunciasUsuariosComponent implements OnInit {
    this.productoService.updateDenuncia(this.temp).subscribe(
     res=> {alert('Se actualizo la visualizacion del producto'); console.log(res);
       if(e==1){
+        this.addBitacora(' bloqueo el producto '+nombrep);
         this.productoService.sendEmail(this.temp2).subscribe(
           res=>  console.log(res),
           err=> console.log(err)
@@ -55,6 +58,19 @@ export class DenunciasUsuariosComponent implements OnInit {
     },
     err=> console.log(err)
    );
+  }
+
+  addBitacora(desc:string){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:desc
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
+    );
   }
 
 }

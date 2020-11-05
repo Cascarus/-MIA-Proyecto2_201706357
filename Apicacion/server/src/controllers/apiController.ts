@@ -58,7 +58,97 @@ class ApiController {
         });
     }
 
-    
+    public async reporte1(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'SELECT * FROM Bitacora';
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async reporte1Or(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'SELECT * FROM Bitacora ORDER BY fecha :id';
+        var id = req.params.id;
+        console.log(id);
+        if (id=='ASC') {
+            sql = 'SELECT * FROM Bitacora ORDER BY fecha ASC';
+        }else if (id=='DESC'){
+            sql = 'SELECT * FROM Bitacora ORDER BY fecha DESC';
+        }
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async addBitacora(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'INSERT INTO Bitacora (email, fecha, descripcion) VALUES (:email,LOCALTIMESTAMP(2), :descripcion)';
+        var obj = req.body;
+        connection.exec(sql,obj,function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte2(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'SELECT P.nombre AS Producto, SUM(DT.cantidad) AS cantidad, U.nombre As cliente, U.apellido FROM detalle_factura DT '+
+        'INNER JOIN producto P ON (P.idProducto=DT.idProducto) '+
+        'INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) group by DT.idProducto, P.nombre, U.idusuario, U.nombre, U.apellido ';
+        var obj = req.body;
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte3(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'SELECT P.nombre AS Producto, count(*) AS Me_Gusta, U.nombre As cliente, U.apellido FROM LIKES DT '+
+        ' INNER JOIN producto P ON (P.idProducto=DT.idProducto) '+
+        ' INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) '+
+        ' WHERE DT.estado=1 '+
+        ' group by DT.idProducto, P.nombre, U.idusuario, U.nombre, U.apellido';
+        var obj = req.body;
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte4(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'SELECT P.nombre AS Producto, count(*) AS Me_Gusta, U.nombre As cliente, U.apellido FROM LIKES DT '+
+        ' INNER JOIN producto P ON (P.idProducto=DT.idProducto) '+
+        ' INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) '+
+        ' WHERE DT.estado=2 '+
+        ' group by DT.idProducto, P.nombre, U.idusuario, U.nombre, U.apellido';
+        var obj = req.body;
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte5(req: Request, res:Response){
+        var connection = pool.db2();
+            var sql = 'SELECT * FROM usuario U WHERE confirmacion=1 AND idTIpo_U=2 AND ROWNUM <= 10 '+
+            ' ORDER BY U.credito DESC ';
+        var obj = req.body;
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte6(req: Request, res:Response){
+        var connection = pool.db2();
+            var sql = 'SELECT U.nombre,U.email, U.nacimieno, COUNT(*) AS Den FROM denuncias D '+
+            ' INNER JOIN Usuario U ON (U.idUsuario=D.idUsuario) '+
+            ' WHERE ROWNUM <= 10 '+
+            ' GROUP BY  D.idUsuario, U.nombre, U.email, U.nacimieno '+
+            ' ORDER BY Den DESC ';
+        var obj = req.body;
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
 
 }
 

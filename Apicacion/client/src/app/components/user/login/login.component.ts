@@ -48,8 +48,10 @@ export class LoginComponent implements OnInit {
             this.userService.setUser(res);
             
             if(this.tempU.rol==1){
+              this.addBitacora();
               this.router.navigate(['admin/categorias']);
             }else if(this.tempU.rol==2){
+              this.addBitacora();
               this.router.navigate(['user/home']);
             }
           }else{
@@ -60,6 +62,19 @@ export class LoginComponent implements OnInit {
         console.log(res)},
       err => console.log(err) 
      );
+  }
+
+  addBitacora(){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:'Este usuario ah iniciado sesion'
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
+    );
   }
 
   recuperarContrasenia(){

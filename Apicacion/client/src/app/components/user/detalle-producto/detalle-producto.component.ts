@@ -53,12 +53,29 @@ export class DetalleProductoComponent implements OnInit {
       idUsuario: this.userService.getSesion().id
     }
     this.productoService.addLike(temp).subscribe(
-      res=>{console.log(res);this.getAllLikes();},
+      res=>{console.log(res);this.getAllLikes(); this.addBitacora(' Esta usuario le dio una reaccion al producto '+this.producto.nombre);},
       err=> console.log(err)
+    );
+  }
+
+  addBitacora(desc:string){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:desc
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
     );
   }
 
   comentario(id:any){
     this.router.navigate(['user/Comentarios/'+id]);
+  }
+
+  chat(id:any){
+    this.router.navigate(['user/Chat/'+id]);
   }
 }

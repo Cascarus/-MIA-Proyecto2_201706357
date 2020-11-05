@@ -38,7 +38,7 @@ export class CarritoComponent implements OnInit {
 
   deleteOneProduct(idCarrito){
     this.productoService.deleteOneProduct(idCarrito).subscribe(
-      res=> {  this.getCarrito(); console.log(res);
+      res=> {  this.getCarrito(); console.log(res); this.addBitacora(' Este usuario elimino un producto de su carrito ');
       },
       err=> console.log(err)
       
@@ -47,7 +47,7 @@ export class CarritoComponent implements OnInit {
 
   deleteAllCarrito(){
     this.productoService.deleteAllCarrito(this.userService.getSesion().id).subscribe(
-      res=>{ alert('Carrito Limpio'); this.getCarrito();console.log(res);;
+      res=>{ alert('Carrito Limpio'); this.getCarrito();console.log(res);this.addBitacora(' Este usuario hizo vacio su carrito ');
       },
       err=>{console.log(err);
       }
@@ -66,7 +66,7 @@ export class CarritoComponent implements OnInit {
           this.tempCompra.productos=this.carrito;
           this.tempCompra.correoComprador=this.user.email;
           this.productoService.addCompra(this.tempCompra).subscribe(
-            res=>{console.log(res);
+            res=>{console.log(res); this.addBitacora(' Este usuario hizo una compra ');
                 //Enviamos los correos a los usuarios
                 this.productoService.sendEmailCOmpra(this.tempCompra).subscribe(
                   res=>{ console.log(res);;
@@ -87,6 +87,19 @@ export class CarritoComponent implements OnInit {
       }
     );
     
+  }
+
+  addBitacora(desc:string){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:desc
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
+    );
   }
 
   getTotal():number{

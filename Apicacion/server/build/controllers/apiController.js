@@ -137,6 +137,139 @@ var ApiController = /** @class */ (function () {
             });
         });
     };
+    ApiController.prototype.reporte1 = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT * FROM Bitacora';
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.reporte1Or = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, id;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT * FROM Bitacora ORDER BY fecha :id';
+                id = req.params.id;
+                console.log(id);
+                if (id == 'ASC') {
+                    sql = 'SELECT * FROM Bitacora ORDER BY fecha ASC';
+                }
+                else if (id == 'DESC') {
+                    sql = 'SELECT * FROM Bitacora ORDER BY fecha DESC';
+                }
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.addBitacora = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'INSERT INTO Bitacora (email, fecha, descripcion) VALUES (:email,LOCALTIMESTAMP(2), :descripcion)';
+                obj = req.body;
+                connection.exec(sql, obj, function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.getReporte2 = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT P.nombre AS Producto, SUM(DT.cantidad) AS cantidad, U.nombre As cliente, U.apellido FROM detalle_factura DT ' +
+                    'INNER JOIN producto P ON (P.idProducto=DT.idProducto) ' +
+                    'INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) group by DT.idProducto, P.nombre, U.idusuario, U.nombre, U.apellido ';
+                obj = req.body;
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.getReporte3 = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT P.nombre AS Producto, count(*) AS Me_Gusta, U.nombre As cliente, U.apellido FROM LIKES DT ' +
+                    ' INNER JOIN producto P ON (P.idProducto=DT.idProducto) ' +
+                    ' INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) ' +
+                    ' WHERE DT.estado=1 ' +
+                    ' group by DT.idProducto, P.nombre, U.idusuario, U.nombre, U.apellido';
+                obj = req.body;
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.getReporte4 = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT P.nombre AS Producto, count(*) AS Me_Gusta, U.nombre As cliente, U.apellido FROM LIKES DT ' +
+                    ' INNER JOIN producto P ON (P.idProducto=DT.idProducto) ' +
+                    ' INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) ' +
+                    ' WHERE DT.estado=2 ' +
+                    ' group by DT.idProducto, P.nombre, U.idusuario, U.nombre, U.apellido';
+                obj = req.body;
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.getReporte5 = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT * FROM usuario U WHERE confirmacion=1 AND idTIpo_U=2 AND ROWNUM <= 10 ' +
+                    ' ORDER BY U.credito DESC ';
+                obj = req.body;
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    ApiController.prototype.getReporte6 = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT U.nombre,U.email, U.nacimieno, COUNT(*) AS Den FROM denuncias D ' +
+                    ' INNER JOIN Usuario U ON (U.idUsuario=D.idUsuario) ' +
+                    ' WHERE ROWNUM <= 10 ' +
+                    ' GROUP BY  D.idUsuario, U.nombre, U.email, U.nacimieno ' +
+                    ' ORDER BY Den DESC ';
+                obj = req.body;
+                connection.exec(sql, [], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
     return ApiController;
 }());
 exports.apiController = new ApiController();

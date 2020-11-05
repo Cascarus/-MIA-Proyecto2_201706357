@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../../services/producto.service';
-import { Categoria } from '../../../models/categoria'
+import { Categoria } from '../../../models/categoria';
+import { UserService } from '../../../services/user.service';
+
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
@@ -15,7 +17,7 @@ export class CategoriasComponent implements OnInit {
 
 
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService, private userService: UserService) { }
   categorias:any=[];
   ngOnInit(): void {
     this.getCategorias()
@@ -38,8 +40,21 @@ export class CategoriasComponent implements OnInit {
 
   updateCategoria(){
     this.productoService.updateCategoria(this.categoria).subscribe(
-      res=>{ alert('Categoria Modificada') },
+      res=>{ alert('Categoria Modificada'); this.addBitacora(' Se modifico la categoria '+this.categoria.nombre); },
       err=>{console.log(err); alert('Error al agregar categoria')}
     )
+  }
+
+  addBitacora(desc:string){
+    var BitacoraTemp={
+      email:this.userService.getSesion().email,
+      descripcion:desc
+    }
+    this.userService.addBitacora(BitacoraTemp).subscribe(
+      res=>{console.log(res);
+      },
+      err=>console.log(err)
+      
+    );
   }
 }

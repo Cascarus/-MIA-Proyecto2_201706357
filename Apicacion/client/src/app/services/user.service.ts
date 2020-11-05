@@ -8,7 +8,7 @@ import { User } from '../models/user';
 export class UserService {
 
   constructor(private http: HttpClient) { }
-  url:string = "http://localhost:3009/";
+  url:string = "http://192.168.0.8:3009/";
   
   addUser(user: User){
     return this.http.post(`${this.url}user/`,user);
@@ -66,5 +66,37 @@ export class UserService {
 
   updateUsuer(user:User){
     return this.http.post(`${this.url}user/update`,user)
+  }
+
+  reporte1(){
+    return this.http.get(`${this.url}api/reportes`)
+  }
+
+  reporte1Or(OrderBy:string){
+    return this.http.get(`${this.url}api/reportes1Or/${OrderBy}`)
+  }
+
+  addBitacora(objecto:any){
+    return this.http.post(`${this.url}api/Bitacoraadd`,objecto)
+  }
+
+  getReporte2(){
+    return this.http.get(`${this.url}api/reporte2`)
+  }
+
+  getReporte3(){
+    return this.http.get(`${this.url}api/reporte3`)
+  }
+
+  getReporte4(){
+    return this.http.get(`${this.url}api/reporte4`)
+  }
+
+  getReporte5(){
+    return this.http.get(`${this.url}api/reporte5`)
+  }
+
+  getReporte6(){
+    return this.http.get(`${this.url}api/reporte6`)
   }
 }

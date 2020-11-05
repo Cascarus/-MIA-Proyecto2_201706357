@@ -11,6 +11,8 @@ import { MisProductosComponent } from './components/user/mis-productos/mis-produ
 import { DetalleProductoComponent } from './components/user/detalle-producto/detalle-producto.component';
 import { ComentariosComponent } from './components/user/comentarios/comentarios.component';
 import { CarritoComponent } from './components/user/carrito/carrito.component'
+import { ChatComponent } from './components/user/chat/chat.component';
+import { ReportesComponent } from './components/admin/reportes/reportes.component';
 import { DenunciasComponent } from './components/admin/denuncias/denuncias.component';
 import { DenunciasUsuariosComponent } from './components/admin/denuncias-usuarios/denuncias-usuarios.component';
 import { AuthGuard  } from './guard/auth.guard';
@@ -78,6 +80,11 @@ const routes: Routes = [
     canActivate: [UserGuard]
   },
   {
+    path: 'user/Chat/:id',
+    component: ChatComponent,
+    canActivate: [UserGuard]
+  },
+  {
     path: 'admin/categorias',
     component: CategoriasComponent,
     canActivate: [AuthGuard]
@@ -85,6 +92,11 @@ const routes: Routes = [
   {
     path: 'admin/Denuncias',
     component: DenunciasUsuariosComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/Reportes',
+    component: ReportesComponent,
     canActivate: [AuthGuard]
   },
   

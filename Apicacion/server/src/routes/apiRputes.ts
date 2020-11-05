@@ -11,6 +11,14 @@ class ApiRoutes{
       this.router.get('/recuperrarContrasenia/:id', apiController.recuperrar);
       this.router.post('/sendEmail', apiController.emailSend  );
       this.router.post('/cambioPass', apiController.cambiarpass  );
+      this.router.get('/reportes', apiController.reporte1 );
+      this.router.get('/reportes1Or/:id', apiController.reporte1Or);
+      this.router.post('/Bitacoraadd', apiController.addBitacora);
+      this.router.get('/reporte2', apiController.getReporte2);
+      this.router.get('/reporte3', apiController.getReporte3);
+      this.router.get('/reporte4', apiController.getReporte4);
+      this.router.get('/reporte5', apiController.getReporte5);
+      this.router.get('/reporte6', apiController.getReporte6);
    /*  this.router.get('/consulta2', apiController.consulta2  );
      this.router.get('/consulta3', apiController.consulta3  );
      this.router.get('/consulta4', apiController.consulta4  );

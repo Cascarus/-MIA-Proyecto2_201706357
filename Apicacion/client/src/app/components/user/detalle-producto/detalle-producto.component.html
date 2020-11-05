@@ -18,7 +18,7 @@
         <div class="card border-danger mb-3" style="max-width: 20rem;">
     
             <div class="card-body">
-                <img src="http://localhost:3009/{{producto.pathI}}" class="card-img-top img-fluid img-responsive" >
+                <img src="http://192.168.0.8:3009/{{producto.pathI}}" class="card-img-top img-fluid img-responsive" >
               <p class="card-text">Q{{producto.precio}}.</p>
             </div>
             <div class="card-footer">
@@ -32,7 +32,7 @@
 
     </div>
     <div class="col-sm-1">
-        <button type="button" class="btn btn-warning">chat</button>
+        <button type="button" class="btn btn-warning" (click)="chat(producto.idProducto)">chat</button>
     </div>
 </div>
 

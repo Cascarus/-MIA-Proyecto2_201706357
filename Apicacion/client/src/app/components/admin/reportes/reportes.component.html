@@ -1,0 +1,172 @@
+<hr>
+<ul class="nav nav-tabs ">
+    <li class="nav-item">
+      <a class="nav-link active"  style="color:#FF0000" data-toggle="tab" href="#reporte1" (click)="reporteOne()">Reporte 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="color:#FF0000" data-toggle="tab" href="#reporte2" (click)="reporteOne()">Reporte 2</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color:#FF0000" data-toggle="tab" href="#reporte3" (click)="reporteOne()">Reporte 3</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color:#FF0000" data-toggle="tab" href="#reporte4" (click)="reporteOne()">Reporte 4</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color:#FF0000" data-toggle="tab" href="#reporte5" (click)="reporteOne()">Reporte 5</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color:#FF0000" data-toggle="tab" href="#reporte6" (click)="reporteOne()">Reporte 6</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color:#FF0000" data-toggle="tab" href="#reporte7" (click)="reporteOne()">Reporte 7</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color:#FF0000" data-toggle="tab" href="#reporte8" (click)="reporteOne()">Reporte 8</a>
+    </li>
+   
+  </ul>
+  <div id="myTabContent" class="tab-content text-center">
+    <div class="tab-pane fade active show" id="reporte1">
+      <h2>Reporte bitácora</h2>
+        <div class="col-md-3">  
+            <div class="row">
+                <select  name="precios" class="form-control" [(ngModel)]="idOrderBY" [ngModelOptions]="{standalone: true}" >
+                    <option *ngFor="let pre of precios" [value]="pre.id">{{pre.texto}}</option>
+                </select>
+                <button type="button" class="btn btn-outline-warning" (click)="OrdenarBitacora()">Ordenar</button>
+            </div>          
+            
+        </div>
+
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                  <th scope="col" style="color:#958886">Email</th>
+                  <th scope="col" style="color:#958886">Descripcion</th>
+                  <th scope="col" style="color:#958886">Fecha</th>
+                </tr>
+            </thead>
+            <tr class="table-info" *ngFor="let rep of repo1">
+                <th scope="row">{{rep.EMAIL}}</th>
+                <td>{{rep.DESCRIPCION}}</td>
+                <td >{{rep.FECHA}}</td>
+            </tr>
+
+        </table>
+
+    </div>
+    <div class="tab-pane fade " id="reporte2">
+      <h2>Top 10 de productos más vendidos</h2>
+      <hr>
+      <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+              <th scope="col" style="color:#958886">Producto</th>
+              <th scope="col" style="color:#958886">Cantidad</th>
+              <th scope="col" style="color:#958886">Cliente</th>
+              <th scope="col" style="color:#958886">Apellido</th>
+            </tr>
+        </thead>
+        <tr class="table-secondary" *ngFor="let rep2 of repo2">
+            <th scope="row">{{rep2.PRODUCTO}}</th>
+            <td>{{rep2.CANTIDAD}}</td>
+            <td >{{rep2.CLIENTE}}</td>
+            <td >{{rep2.APELLIDO}}</td>
+        </tr>
+
+    </table>
+    </div>
+    <div class="tab-pane fade" id="reporte3">
+        <h2>Top 10 de productos que más “me gusta” han tenido</h2>
+        <hr>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                  <th scope="col" style="color:#958886">Producto</th>
+                  <th scope="col" style="color:#958886">Me Gusta</th>
+                  <th scope="col" style="color:#958886">Cliente</th>
+                  <th scope="col" style="color:#958886">Apellido</th>
+                </tr>
+            </thead>
+            <tr class="table-secondary" *ngFor="let rep3 of repo3">
+                <th scope="row">{{rep3.PRODUCTO}}</th>
+                <td>{{rep3.ME_GUSTA}}</td>
+                <td >{{rep3.CLIENTE}}</td>
+                <td >{{rep3.APELLIDO}}</td>
+            </tr>
+    
+        </table>
+    </div>
+    <div class="tab-pane fade" id="reporte4">
+        <h2>Top 10 productos con más “no me gusta” han tenido</h2>
+        <hr>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                  <th scope="col" style="color:#958886">Producto</th>
+                  <th scope="col" style="color:#958886">No Me Gusta</th>
+                  <th scope="col" style="color:#958886">Cliente</th>
+                  <th scope="col" style="color:#958886">Apellido</th>
+                </tr>
+            </thead>
+            <tr class="table-secondary" *ngFor="let rep4 of repo4">
+                <th scope="row">{{rep4.PRODUCTO}}</th>
+                <td>{{rep4.ME_GUSTA}}</td>
+                <td >{{rep4.CLIENTE}}</td>
+                <td >{{rep4.APELLIDO}}</td>
+            </tr>
+    
+        </table>
+    </div>
+    <div class="tab-pane fade" id="reporte5">
+        <h2>Top 10 clientes con más y menos créditos</h2>
+        <hr>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                  <th scope="col" style="color:#958886">Nombre</th>
+                  <th scope="col" style="color:#958886">Correo</th>
+                  <th scope="col" style="color:#958886">Fecha de Nacimiento</th>
+                  <th scope="col" style="color:#958886">Creditos</th>
+                </tr>
+            </thead>
+            <tr class="table-secondary" *ngFor="let rep5 of repo5">
+                <th scope="row">{{rep5.NOMBRE}}</th>
+                <td>{{rep5.EMAIL}}</td>
+                <td >{{rep5.NACIMIENO}}</td>
+                <td >{{rep5.CREDITO}}</td>
+            </tr>
+    
+        </table>
+    </div>
+    <div class="tab-pane fade" id="reporte6">
+        <h2>Top 10 clientes que más denuncias han hecho</h2>
+        <hr>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                  <th scope="col" style="color:#958886">Nombre</th>
+                  <th scope="col" style="color:#958886">Correo</th>
+                  <th scope="col" style="color:#958886">Fecha de Nacimiento</th>
+                  <th scope="col" style="color:#958886">Denuncias</th>
+                </tr>
+            </thead>
+            <tr class="table-secondary" *ngFor="let rep6 of repo6">
+                <th scope="row">{{rep6.NOMBRE}}</th>
+                <td>{{rep6.EMAIL}}</td>
+                <td >{{rep6.NACIMIENO}}</td>
+                <td >{{rep6.DEN}}</td>
+            </tr>
+    
+        </table>
+    </div>
+    <div class="tab-pane fade" id="reporte7">
+        <h2>Top 10 clientes que más publicaciones han hecho</h2>
+    </div>
+    <div class="tab-pane fade" id="reporte8">
+        <h2>Top 10 de países con más crédito y productos a la venta</h2>
+    </div>
+
+    
+  </div>
