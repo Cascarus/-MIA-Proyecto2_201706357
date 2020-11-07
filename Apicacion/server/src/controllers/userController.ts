@@ -58,7 +58,7 @@ class UserController {
                 subject: "Confirmacion De Registro", // Subject line
                 text: " Confirme su registro ", // plain text body
                 html: "<br><h1>Confirma  tu servicio "+ obj.nombre+".</h1>"+"<br>"+"<h3>Presiona el siguiente link para confirmar tu cuenta</h3>"+"<br>"+ 
-                "<a href=\"http://localhost:4200/confirmacionUser/"+obj.token+"\"><buttonhref=\"http://localhost:4200/confirmacionUser/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
+                "<a href=\"http://192.168.0.8:4200/confirmacionUser/"+obj.token+"\"><buttonhref=\"http://192.168.0.8:4200/confirmacionUser/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
                 "<br>"+
                 "<br><img src=\"https://img.icons8.com/wired/2x/among-us.png\"/>", // html body
               });
@@ -155,8 +155,61 @@ class UserController {
         await pool.db2().exec(sql,[],function(result:any){
            res.json(result);
        });
-       
    }
+
+   public async addMensaje(req: Request, res: Response){
+    var connection = pool.db2();
+    var sql = "SELECT * FROM chat WHERE idUsuario1=:ID1 AND idUsuario2=:ID2";
+    var obj = req.body;
+    
+        await pool.db2().exec(sql,obj,function(result:any){
+            if(result.length < 1){ //No hay chat existente
+                    sql="INSERT INTO chat (idUsuario1,idUsuario2) VALUES (:ID1, :ID2)";
+                    connection.exec(sql,obj,function(result2:any){ //Insertamos el chat
+                        sql = "SELECT * FROM chat WHERE idUsuario1=:ID1 AND idUsuario2=:ID2";
+                        connection.exec(sql,obj,function(result3:any){ //Devolvemos el chat insertado
+                            res.json(result3);
+                        });
+                    });
+            }else{
+                res.json(result);
+            }
+            
+        });  
+    }
+
+    public async enviarMensaje(req: Request, res: Response){
+        var connection = pool.db2();
+        var sql = "INSERT INTO mensaje (texto,fecha,idChat, idUsuario) VALUES (:texto,LOCALTIMESTAMP(2),:idChat,:idUsuario)";
+        var obj = req.body;
+        
+        await pool.db2().exec(sql,obj,function(result:any){
+            res.json(result)
+       });
+    }
+
+    public async getMensajes(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'SELECT M.idMensaje, M.texto, M.fecha, M.idChat, U.nombre, U.apellido FROM Mensaje M '+
+        ' INNER JOIN usuario U ON (U.idUsuario=M.idUsuario) '+ 
+        ' WHERE M.idChat=:ID ORDER BY M.fecha ASC';
+        var obj = req.params.id;
+        connection.exec(sql,[obj],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getChats(req: Request, res:Response){
+        var connection = pool.db2();
+        var sql = 'SELECT C.idChat, C.idUsuario1, U.nombre AS vendedor,C.idUsuario2, U2.nombre AS comprador FROM chat C '+
+        ' INNER JOIN usuario U ON (U.idUsuario=C.idUsuario1) '+
+        ' INNER JOIN usuario U2 ON (U2.idUsuario=C.idUsuario2) '+
+        ' WHERE C.idUsuario1=:ID OR C.idUsuario2=:ID ORDER BY C.idChat ASC';
+        var obj = req.params.id;
+        connection.exec(sql,[obj],function(result:any){
+            res.json(result);
+        });
+    }
 
 }
 

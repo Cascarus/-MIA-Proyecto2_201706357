@@ -28,6 +28,12 @@ export class DetalleProductoComponent implements OnInit {
     Megusta: 0,
     NoMegusta: 0
     };
+  
+    tempChat:any={
+      idChat:0,
+      ID1:0,
+      ID2:0
+    }
   ngOnInit(): void {
     const parm=this.active.snapshot.params;
     this.id=parm.id;
@@ -76,6 +82,16 @@ export class DetalleProductoComponent implements OnInit {
   }
 
   chat(id:any){
-    this.router.navigate(['user/Chat/'+id]);
+    //this.router.navigate(['user/Chat/'+id]);
+    var tempChat={
+      ID1:id,
+      ID2:this.userService.getSesion().id
+    }
+    this.userService.startChat(tempChat).subscribe(
+      res=>{this.tempChat=res; console.log(this.tempChat);  this.router.navigate(['user/Chat/'+this.tempChat[0].IDCHAT]);
+      },
+      err=>{console.log(err);
+      }
+    );
   }
 }

@@ -13,6 +13,7 @@ import { ComentariosComponent } from './components/user/comentarios/comentarios.
 import { CarritoComponent } from './components/user/carrito/carrito.component'
 import { ChatComponent } from './components/user/chat/chat.component';
 import { ReportesComponent } from './components/admin/reportes/reportes.component';
+import { ChatsComponent } from './components/user/chats/chats.component';
 import { DenunciasComponent } from './components/admin/denuncias/denuncias.component';
 import { DenunciasUsuariosComponent } from './components/admin/denuncias-usuarios/denuncias-usuarios.component';
 import { AuthGuard  } from './guard/auth.guard';
@@ -82,6 +83,11 @@ const routes: Routes = [
   {
     path: 'user/Chat/:id',
     component: ChatComponent,
+    canActivate: [UserGuard]
+  },
+  {
+    path: 'user/Chats',
+    component: ChatsComponent,
     canActivate: [UserGuard]
   },
   {

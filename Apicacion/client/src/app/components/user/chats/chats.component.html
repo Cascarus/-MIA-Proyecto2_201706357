@@ -1,0 +1,14 @@
+<hr>    
+<div class="container text-center">
+    <h1>Tus Chats</h1>
+    <div class="toast show" *ngFor="let ch of chats">
+        <div class="toast-header">
+          <strong class="mr-auto">vendedor: {{ch.VENDEDOR}}</strong>
+          <small>chat activo</small>
+        </div>
+        <div class="toast-body">
+          Comprador: {{ch.COMPRADOR}} 
+          <button type="button" class="btn btn-outline-warning" (click)="chat(ch.IDCHAT)" >Entrar</button>
+        </div>
+    </div>
+</div>

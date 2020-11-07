@@ -27,6 +27,7 @@ import { DenunciasUsuariosComponent } from './components/admin/denuncias-usuario
 import { CarritoComponent } from './components/user/carrito/carrito.component';
 import { ChatComponent } from './components/user/chat/chat.component';
 import { ReportesComponent } from './components/admin/reportes/reportes.component';
+import { ChatsComponent } from './components/user/chats/chats.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { ReportesComponent } from './components/admin/reportes/reportes.componen
     DenunciasUsuariosComponent,
     CarritoComponent,
     ChatComponent,
-    ReportesComponent
+    ReportesComponent,
+    ChatsComponent
   ],
   imports: [
     BrowserModule,

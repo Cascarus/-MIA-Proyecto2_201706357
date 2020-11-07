@@ -16,11 +16,11 @@
     <div class="container">
         <div class="chat-content">
             <div class="card">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <strong>Usuario: </strong>
-                        <span>usuario</span>
-                        
+                <ul class="list-group list-group-flush" >
+                    <li class="list-group-item " *ngFor="let msj of mensajes">
+                        <strong>{{msj.NOMBRE}} {{msj.APELLIDO}} : </strong>
+                        <span> {{msj.TEXTO}} </span>
+                        <small>{{msj.FECHA}}</small>
                     </li>
                 </ul>
                 
@@ -32,10 +32,10 @@
                     <input type="text" class="form-control" name="user" id="input-user" ngModel>
                 </div>
                 <div class="col-8">
-                    <input type="text" class="form-control" name="message" id="input-message" ngModel>
+                    <input type="text" class="form-control" name="message" id="input-message" [(ngModel)]="tempMensa.texto" [ngModelOptions]="{standalone: true}">
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="submit" class="btn btn-primary" (click)="enviarMensaje()">Send</button>
                 </div>
             </div>
         </form>

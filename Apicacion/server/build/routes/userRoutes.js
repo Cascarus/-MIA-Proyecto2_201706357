@@ -17,6 +17,10 @@ var UserRoutes = /** @class */ (function () {
         this.router.post('/update', userController_1.userController.update);
         this.router.delete('/:id', userController_1.userController.delete);
         this.router.get('/paises/all', userController_1.userController.getPaises);
+        this.router.post('/mensaje/send', userController_1.userController.addMensaje);
+        this.router.post('/mensaje/enviar', userController_1.userController.enviarMensaje);
+        this.router.get('/mensaje/obtener/:id', userController_1.userController.getMensajes);
+        this.router.get('/mensaje/obtenerChats/:id', userController_1.userController.getChats);
     };
     return UserRoutes;
 }());

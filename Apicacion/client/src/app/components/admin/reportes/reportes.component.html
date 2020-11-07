@@ -137,6 +137,12 @@
                 <td >{{rep5.NACIMIENO}}</td>
                 <td >{{rep5.CREDITO}}</td>
             </tr>
+            <tr class="table-secondary" *ngFor="let rep52 of repo52">
+                <th scope="row">{{rep52.NOMBRE}}</th>
+                <td>{{rep52.EMAIL}}</td>
+                <td >{{rep52.NACIMIENO}}</td>
+                <td >{{rep52.CREDITO}}</td>
+            </tr>
     
         </table>
     </div>
@@ -163,9 +169,43 @@
     </div>
     <div class="tab-pane fade" id="reporte7">
         <h2>Top 10 clientes que más publicaciones han hecho</h2>
+        <hr>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                  <th scope="col" style="color:#958886">Cliente</th>
+                  <th scope="col" style="color:#958886">Email</th>
+                  <th scope="col" style="color:#958886">Credito</th>
+                  <th scope="col" style="color:#958886">Productos a la venta</th>
+                </tr>
+            </thead>
+            <tr class="table-secondary" *ngFor="let rep7 of repo7">
+                <th scope="row">{{rep7.NOMBRE}}</th>
+                <td>{{rep7.EMAIL}}</td>
+                <td >{{rep7.CREDITO}}</td>
+                <td >{{rep7.CANT}}</td>
+            </tr>
+        </table>
     </div>
     <div class="tab-pane fade" id="reporte8">
         <h2>Top 10 de países con más crédito y productos a la venta</h2>
+        <hr>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr>
+                  <th scope="col" style="color:#958886">Pais</th>
+                  <th scope="col" style="color:#958886">Credito</th>
+                  <th scope="col" style="color:#958886">Ventas</th>
+                  <th scope="col" style="color:#958886">Clientes</th>
+                </tr>
+            </thead>
+            <tr class="table-secondary" *ngFor="let rep8 of repo8">
+                <th scope="row">{{rep8.NOMBRE}}</th>
+                <td>{{rep8.SUMA}}</td>
+                <td >{{rep8.VENTAS}}</td>
+                <td >{{rep8.CLIENTES}}</td>
+            </tr>
+        </table>
     </div>
 
     

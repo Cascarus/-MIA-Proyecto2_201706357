@@ -18,7 +18,10 @@ class ApiRoutes{
       this.router.get('/reporte3', apiController.getReporte3);
       this.router.get('/reporte4', apiController.getReporte4);
       this.router.get('/reporte5', apiController.getReporte5);
+      this.router.get('/reporte52', apiController.getReporte52);
       this.router.get('/reporte6', apiController.getReporte6);
+      this.router.get('/reporte7', apiController.getReporte7);
+      this.router.get('/reporte8', apiController.getReporte8);
    /*  this.router.get('/consulta2', apiController.consulta2  );
      this.router.get('/consulta3', apiController.consulta3  );
      this.router.get('/consulta4', apiController.consulta4  );

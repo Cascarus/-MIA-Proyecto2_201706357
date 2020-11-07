@@ -128,7 +128,7 @@ var UserController = /** @class */ (function () {
                                 subject: "Confirmacion De Registro",
                                 text: " Confirme su registro ",
                                 html: "<br><h1>Confirma  tu servicio " + obj.nombre + ".</h1>" + "<br>" + "<h3>Presiona el siguiente link para confirmar tu cuenta</h3>" + "<br>" +
-                                    "<a href=\"http://localhost:4200/confirmacionUser/" + obj.token + "\"><buttonhref=\"http://localhost:4200/confirmacionUser/" + obj.token + "\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>" +
+                                    "<a href=\"http://192.168.0.8:4200/confirmacionUser/" + obj.token + "\"><buttonhref=\"http://192.168.0.8:4200/confirmacionUser/" + obj.token + "\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>" +
                                     "<br>" +
                                     "<br><img src=\"https://img.icons8.com/wired/2x/among-us.png\"/>",
                             })];
@@ -261,6 +261,88 @@ var UserController = /** @class */ (function () {
                         _a.sent();
                         return [2 /*return*/];
                 }
+            });
+        });
+    };
+    UserController.prototype.addMensaje = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        connection = database_1.default.db2();
+                        sql = "SELECT * FROM chat WHERE idUsuario1=:ID1 AND idUsuario2=:ID2";
+                        obj = req.body;
+                        return [4 /*yield*/, database_1.default.db2().exec(sql, obj, function (result) {
+                                if (result.length < 1) { //No hay chat existente
+                                    sql = "INSERT INTO chat (idUsuario1,idUsuario2) VALUES (:ID1, :ID2)";
+                                    connection.exec(sql, obj, function (result2) {
+                                        sql = "SELECT * FROM chat WHERE idUsuario1=:ID1 AND idUsuario2=:ID2";
+                                        connection.exec(sql, obj, function (result3) {
+                                            res.json(result3);
+                                        });
+                                    });
+                                }
+                                else {
+                                    res.json(result);
+                                }
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.enviarMensaje = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        connection = database_1.default.db2();
+                        sql = "INSERT INTO mensaje (texto,fecha,idChat, idUsuario) VALUES (:texto,LOCALTIMESTAMP(2),:idChat,:idUsuario)";
+                        obj = req.body;
+                        return [4 /*yield*/, database_1.default.db2().exec(sql, obj, function (result) {
+                                res.json(result);
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.getMensajes = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT M.idMensaje, M.texto, M.fecha, M.idChat, U.nombre, U.apellido FROM Mensaje M ' +
+                    ' INNER JOIN usuario U ON (U.idUsuario=M.idUsuario) ' +
+                    ' WHERE M.idChat=:ID ORDER BY M.fecha ASC';
+                obj = req.params.id;
+                connection.exec(sql, [obj], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    UserController.prototype.getChats = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, obj;
+            return __generator(this, function (_a) {
+                connection = database_1.default.db2();
+                sql = 'SELECT C.idChat, C.idUsuario1, U.nombre AS vendedor,C.idUsuario2, U2.nombre AS comprador FROM chat C ' +
+                    ' INNER JOIN usuario U ON (U.idUsuario=C.idUsuario1) ' +
+                    ' INNER JOIN usuario U2 ON (U2.idUsuario=C.idUsuario2) ' +
+                    ' WHERE C.idUsuario1=:ID OR C.idUsuario2=:ID ORDER BY C.idChat ASC';
+                obj = req.params.id;
+                connection.exec(sql, [obj], function (result) {
+                    res.json(result);
+                });
+                return [2 /*return*/];
             });
         });
     };

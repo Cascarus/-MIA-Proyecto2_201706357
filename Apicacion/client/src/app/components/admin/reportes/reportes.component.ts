@@ -17,7 +17,10 @@ export class ReportesComponent implements OnInit {
   repo3:any=[];
   repo4:any=[];
   repo5:any=[];
+  repo52:any=[];
   repo6:any=[];
+  repo7:any=[];
+  repo8:any=[];
 
   ngOnInit(): void {
     this.reporteOne();  
@@ -29,7 +32,10 @@ export class ReportesComponent implements OnInit {
     this.getReporte3();
     this.getReporte4();
     this.getReporte5();
+    this.getReporte52();
     this.getReporte6();
+    this.getReporte7();
+    this.getReporte8();
   }
 
   
@@ -89,6 +95,15 @@ export class ReportesComponent implements OnInit {
     );
   }
 
+  getReporte52(){
+    this.userService.getReporte52().subscribe(
+      res=>{console.log(res); this.repo52=res;
+      },
+      err=>{console.log(err);
+      }
+    );
+  }
+
   getReporte6(){
     this.userService.getReporte6().subscribe(
       res=>{console.log(res); this.repo6=res;
@@ -98,4 +113,23 @@ export class ReportesComponent implements OnInit {
     );
   }
 
+  getReporte7(){
+    this.userService.getReporte7().subscribe(
+      res=>{console.log(res); this.repo7=res;
+
+      },
+      err=>{console.log(err);
+      }
+    );
+  }
+
+  getReporte8(){
+    this.userService.getReporte8().subscribe(
+      res=>{console.log(res); this.repo8=res;
+
+      },
+      err=>{console.log(err);
+      }
+    );
+  }
 }

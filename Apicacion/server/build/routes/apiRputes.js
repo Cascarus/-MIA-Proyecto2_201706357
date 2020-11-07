@@ -18,7 +18,10 @@ var ApiRoutes = /** @class */ (function () {
         this.router.get('/reporte3', apiController_1.apiController.getReporte3);
         this.router.get('/reporte4', apiController_1.apiController.getReporte4);
         this.router.get('/reporte5', apiController_1.apiController.getReporte5);
+        this.router.get('/reporte52', apiController_1.apiController.getReporte52);
         this.router.get('/reporte6', apiController_1.apiController.getReporte6);
+        this.router.get('/reporte7', apiController_1.apiController.getReporte7);
+        this.router.get('/reporte8', apiController_1.apiController.getReporte8);
         /*  this.router.get('/consulta2', apiController.consulta2  );
           this.router.get('/consulta3', apiController.consulta3  );
           this.router.get('/consulta4', apiController.consulta4  );

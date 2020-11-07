@@ -42,7 +42,7 @@ class ApiController {
                 subject: "Cambio de contraseña", // Subject line
                 text: " Confirme su cambio de contraseña ", // plain text body
                 html: "<br><h1>Confirme que ud "+ obj.nombre+" Quiere cambiar de contraseña.</h1>"+"<br>"+"<h3>Presiona el siguiente link para cambiar la conseña</h3>"+"<br>"+ 
-                "<a href=\"http://localhost:4200/cambioContrasenia/"+obj.token+"\"><buttonhref=\"http://localhost:4200/cambioContrasenia/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
+                "<a href=\"http://192.168.0.8:4200/cambioContrasenia/"+obj.token+"\"><buttonhref=\"http://192.168.0.8:4200/cambioContrasenia/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
                 "<br>"+
                 "<br><img src=\"https://cdn130.picsart.com/338579709044211.png?type=webp&to=min&r=240\"/>", // html body
               });
@@ -129,8 +129,22 @@ class ApiController {
 
     public async getReporte5(req: Request, res:Response){
         var connection = pool.db2();
-            var sql = 'SELECT * FROM usuario U WHERE confirmacion=1 AND idTIpo_U=2 AND ROWNUM <= 10 '+
-            ' ORDER BY U.credito DESC ';
+            var sql = 'SELECT*FROM( '+
+                ' SELECT * FROM usuario U WHERE confirmacion=1 AND idTIpo_U=2 '+ 
+                ' ORDER BY U.credito DESC '+
+                ' )WHERE  ROWNUM <= 10 ';
+        var obj = req.body;
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte52(req: Request, res:Response){
+        var connection = pool.db2();
+            var sql = 'SELECT*FROM( '+
+                ' SELECT * FROM usuario U WHERE confirmacion=1 AND idTIpo_U=2 '+
+                ' ORDER BY U.credito ASC '+
+                ' )WHERE  ROWNUM <= 10 ';
         var obj = req.body;
         connection.exec(sql,[],function(result:any){
             res.json(result);
@@ -139,12 +153,43 @@ class ApiController {
 
     public async getReporte6(req: Request, res:Response){
         var connection = pool.db2();
-            var sql = 'SELECT U.nombre,U.email, U.nacimieno, COUNT(*) AS Den FROM denuncias D '+
-            ' INNER JOIN Usuario U ON (U.idUsuario=D.idUsuario) '+
-            ' WHERE ROWNUM <= 10 '+
-            ' GROUP BY  D.idUsuario, U.nombre, U.email, U.nacimieno '+
-            ' ORDER BY Den DESC ';
+            var sql = ' SELECT*FROM( '+
+                ' SELECT U.nombre,U.email, U.nacimieno, COUNT(*) AS Den FROM denuncias D '+
+                ' INNER JOIN Usuario U ON (U.idUsuario=D.idUsuario) '+
+                ' GROUP BY  D.idUsuario, U.nombre, U.email, U.nacimieno '+
+                ' ORDER BY Den DESC '+
+                ' ) WHERE ROWNUM <= 10 ';
         var obj = req.body;
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte7(req: Request, res:Response){
+        var connection = pool.db2();
+            var sql = ' SELECT*FROM( '+
+                ' SELECT U.nombre, U.email, U.credito, COUNT(*) AS Cant FROM producto P '+
+                ' INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) '+
+                ' WHERE P.estado=0 '+
+                ' group by P.idUsuario, U.nombre, U.email, U.credito '+
+                ' ORDER BY Cant DESC '+
+                ' ) WHERE ROWNUM <= 10 ';
+        connection.exec(sql,[],function(result:any){
+            res.json(result);
+        });
+    }
+
+    public async getReporte8(req: Request, res:Response){
+        var connection = pool.db2();
+            var sql = ' SELECT * FROM ( '+
+                ' SELECT PA.nombre, TA.suma, TCLI.clientes,  COUNT(*) AS ventas FROM producto P '+
+                ' INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) '+
+                ' INNER JOIN pais PA ON (PA.idPais=U.idPais) '+
+                ' INNER JOIN (SELECT PAA.idPais,SUM(UAA.credito) AS suma FROM pais PAA, usuario UAA WHERE UAA.idPais=PAA.idPais group by PAA.idPais)  TA ON (TA.idPais=PA.idPais) '+
+                ' INNER JOIN (SELECT CLI.idPais, count(*) AS clientes FROM usuario CLI group by CLI.idPais ) TCLI ON (TCLI.idPais=PA.idPais) '+
+                ' WHERE P.estado=0 '+
+                ' GROUP BY U.idPais, PA.nombre, TA.suma, TCLI.clientes '+
+                ' ) WHERE ROWNUM <= 10 ';
         connection.exec(sql,[],function(result:any){
             res.json(result);
         });

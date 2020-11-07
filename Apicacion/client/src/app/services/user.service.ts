@@ -64,6 +64,23 @@ export class UserService {
     return this.http.get(`${this.url}user/paises/all`);
   }
 
+  startChat(objecto:any){
+    return this.http.post(`${this.url}user/mensaje/send`, objecto);
+  }
+
+  enviarMensaje(objecto:any){
+    return this.http.post(`${this.url}user/mensaje/enviar`, objecto);
+  }
+
+  getMensajes(id:any){
+    return this.http.get(`${this.url}user/mensaje/obtener/${id}`);
+  }
+
+  getChats(id:any){
+    return this.http.get(`${this.url}user/mensaje/obtenerChats/${id}`);
+  }
+
+  
   updateUsuer(user:User){
     return this.http.post(`${this.url}user/update`,user)
   }
@@ -96,7 +113,19 @@ export class UserService {
     return this.http.get(`${this.url}api/reporte5`)
   }
 
+  getReporte52(){
+    return this.http.get(`${this.url}api/reporte52`)
+  }
+
   getReporte6(){
     return this.http.get(`${this.url}api/reporte6`)
+  }
+
+  getReporte7(){
+    return this.http.get(`${this.url}api/reporte7`)
+  }
+
+  getReporte8(){
+    return this.http.get(`${this.url}api/reporte8`)
   }
 }
