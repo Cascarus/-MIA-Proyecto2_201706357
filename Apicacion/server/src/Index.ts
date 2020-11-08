@@ -14,11 +14,13 @@ class Server {
     //----------------
 
     public app: Application;
-
+     socketIO = require('socket.io');
+     io:any;
     constructor(){
         this.app = express();
         this.config();
         this.routes();
+        this.io=this.socketIO(this.app)
     }
 
     config(): void{
@@ -40,6 +42,9 @@ class Server {
     }
 
     start():void{
+        this.io.on('connection', (socket:any) => {
+            console.log('user connected');
+        });
 
         this.app.listen(this.app.get('port'),() => {
             console.log('Server on port ',this.app.get('port'));

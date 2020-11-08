@@ -187,6 +187,10 @@ SELECT M.idMensaje, M.texto, M.fecha, M.idChat, U.nombre, U.apellido FROM Mensaj
 INNER JOIN usuario U ON (U.idUsuario=M.idUsuario)
 WHERE M.idChat=:id
 
+SELECT C.idChat, C.idUsuario1, U.nombre AS vendedor,C.idUsuario2, U2.nombre AS comprador FROM chat C
+INNER JOIN usuario U ON (U.idUsuario=C.idUsuario1)
+INNER JOIN usuario U2 ON (U2.idUsuario=C.idUsuario2)
+WHERE C.idUsuario1=61 OR C.idUsuario2=61
 
 
 CREATE OR REPLACE TRIGGER actualizacionCredito 

@@ -15,9 +15,11 @@ var productoRoutes_1 = __importDefault(require("./routes/productoRoutes"));
 var path_1 = __importDefault(require("path"));
 var Server = /** @class */ (function () {
     function Server() {
+        this.socketIO = require('socket.io');
         this.app = express_1.default();
         this.config();
         this.routes();
+        this.io = this.socketIO(this.app);
     }
     Server.prototype.config = function () {
         this.app.set('port', 3009);
@@ -36,6 +38,9 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.start = function () {
         var _this = this;
+        this.io.on('connection', function (socket) {
+            console.log('user connected');
+        });
         this.app.listen(this.app.get('port'), function () {
             console.log('Server on port ', _this.app.get('port'));
         });

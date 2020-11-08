@@ -1,0 +1,14 @@
+{
+  "appId": "com.store.app",
+  "appName": "client",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/client",
+  "linuxAndroidStudioPath": "/snap/android-studio/94/android-studio/bin/studio.sh",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}
