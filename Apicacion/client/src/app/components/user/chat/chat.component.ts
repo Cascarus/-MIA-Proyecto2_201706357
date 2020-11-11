@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { WebSocketService} from '../../../services/web-socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -17,7 +18,7 @@ export class ChatComponent implements OnInit {
     idUsuario: 0
   }
   
-
+  eventname='new-message';
   constructor(private active:ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
@@ -25,6 +26,9 @@ export class ChatComponent implements OnInit {
     this.tempMensa.idChat= Number(parm.id);
     this.tempMensa.idUsuario=this.userService.getSesion().id;
     this.getMensajes();
+    /*this.webSocket.listen('connection').subscribe((data)=>{
+      console.log('asdasd asdas --*  '+data); this.getMensajes();
+    });*/
   }
 
   getMensajes(){
@@ -42,7 +46,7 @@ export class ChatComponent implements OnInit {
     console.log(this.tempMensa);
     
     this.userService.enviarMensaje(this.tempMensa).subscribe(
-      res=>{console.log(res); this.tempMensa.texto='';
+      res=>{console.log(res); this.tempMensa.texto=''; this.getMensajes();
       },
       err=>{console.log(err);
       }

@@ -50,7 +50,7 @@
             <tr class="table-info" *ngFor="let rep of repo1">
                 <th scope="row">{{rep.EMAIL}}</th>
                 <td>{{rep.DESCRIPCION}}</td>
-                <td >{{rep.FECHA}}</td>
+                <td >{{rep.FECHA | date:'yyyy/MM/dd HH:mm'}}</td>
             </tr>
 
         </table>
@@ -134,13 +134,13 @@
             <tr class="table-secondary" *ngFor="let rep5 of repo5">
                 <th scope="row">{{rep5.NOMBRE}}</th>
                 <td>{{rep5.EMAIL}}</td>
-                <td >{{rep5.NACIMIENO}}</td>
+                <td >{{rep5.NACIMIENO | date:'yyyy/MM/dd HH:mm' }}</td>
                 <td >{{rep5.CREDITO}}</td>
             </tr>
             <tr class="table-secondary" *ngFor="let rep52 of repo52">
                 <th scope="row">{{rep52.NOMBRE}}</th>
                 <td>{{rep52.EMAIL}}</td>
-                <td >{{rep52.NACIMIENO}}</td>
+                <td >{{rep52.NACIMIENO | date:'yyyy/MM/dd HH:mm'}}</td>
                 <td >{{rep52.CREDITO}}</td>
             </tr>
     
@@ -161,7 +161,7 @@
             <tr class="table-secondary" *ngFor="let rep6 of repo6">
                 <th scope="row">{{rep6.NOMBRE}}</th>
                 <td>{{rep6.EMAIL}}</td>
-                <td >{{rep6.NACIMIENO}}</td>
+                <td >{{rep6.NACIMIENO | date:'yyyy/MM/dd HH:mm'}}</td>
                 <td >{{rep6.DEN}}</td>
             </tr>
     

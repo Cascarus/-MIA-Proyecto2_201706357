@@ -6,16 +6,15 @@ import * as io from 'socket.io-client';
   providedIn: 'root'
 })
 export class WebSocketService {
-  socket: any;
-  readonly uri: string = "http://192.168.0.8:3009"
-
+  
+ // private socket=io('http://192.168.0.8:3009');
   constructor() {
-   //this.socket = io(this.uri);
+   
   }
 
   
 
-  listen(eventname:string){
+ /* listen(eventname:string){    
     return new Observable((subscriber) => {
       this.socket.on(eventname, (data)=>{
         subscriber.next(data);
@@ -25,5 +24,5 @@ export class WebSocketService {
 
   emmit(eventname:string, data:any){
     this.socket.emit(eventname,data);
-  }
+  }*/
 }

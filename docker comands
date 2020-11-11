@@ -1,0 +1,41 @@
+docker ps -a				        #ver contenedores
+docker rm (container id)		    #elimina contenedor
+
+
+docker images -a			        #ver imagenes
+docker rmi (image id)			    #elimina imagen
+
+sudo docker start  7b1cf05752f4		    #iniciar contenedor
+sudo docker exec -it 7b1cf05752f4 bash	#entrar
+
+sh post_install.sh			        #iniciar oracle - para conectar
+sqlplus					            #iniciar session
+
+sys as sysdba				        #usuario
+oracle					            #pass
+
+TEST        				        #usuario
+1234					            #pass
+
+exit					            #salir tanto de oracle/docker
+
+docker stop 7b1cf05752f4		    #detener contenedor
+
+skill                               #detener app
+
+//Crear variable de entorno
+export LD_LIBRARY_PATH=/opt/instantclient_19_8/
+
+//Visualizar Variable de entorno
+echo $LD_LIBRARY_PATH
+
+http://192.168.0.8/
+
+
+// Para el servicio frontend
+ return this.http.post('http://192.168.1.7:3000/pushCompra',
+    {
+
+Jerrod Satterfield
+jerrod.satterfield@ethereal.email
+xxt33ekw4nZr1Y1vYp

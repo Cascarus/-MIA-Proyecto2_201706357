@@ -7,20 +7,27 @@ import userRoutes from './routes/userRoutes';
 import imageRoutes from './routes/imageRoutes';
 import productoRoutes from './routes/productoRoutes';
 import path from 'path';
-class Server {
+import * as socketIo from 'socket.io';
+import { createServer, Server } from 'http';
+class Server1 {
     
     //-----------------------
      
     //----------------
 
     public app: Application;
-     socketIO = require('socket.io');
-     io:any;
+    public server : Server;
+    public io : SocketIO.Server;
     constructor(){
         this.app = express();
+        
         this.config();
+        this.server = createServer(this.app);
+        this.io = socketIo.default(this.server);
         this.routes();
-        this.io=this.socketIO(this.app)
+        
+       
+        
     }
 
     config(): void{
@@ -42,17 +49,29 @@ class Server {
     }
 
     start():void{
-        this.io.on('connection', (socket:any) => {
-            console.log('user connected');
-        });
+        var mensaje:string="asd";
 
-        this.app.listen(this.app.get('port'),() => {
+        this.io.on('connection', (socket:Server) => {           
+            console.log('mas de algo envia');
+      });
+
+        this.server.listen(this.app.get('port'),() => {
             console.log('Server on port ',this.app.get('port'));
         });
 
+
+       /* this.io.on('connect', (socket:any) => {
+            socket.on('send-message', function(data:any){
+                socket.emit('text-event',mensaje );
+                socket.broadcast.emit('text-event', mensaje);
+            });
+
+            
+        });*/
+        
         
     }
 }
 
-export const server = new Server();
+export const server = new Server1();
 server.start();

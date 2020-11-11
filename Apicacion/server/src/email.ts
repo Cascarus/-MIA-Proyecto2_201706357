@@ -1,7 +1,7 @@
 export default{
 
     auth: {
-        user: '--',
-        pass: '--'
+        user: 'familyu3213@gmail.com',
+        pass: 'Steven098'
       },
 }

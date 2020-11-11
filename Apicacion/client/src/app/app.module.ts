@@ -12,6 +12,8 @@ import { RegisterComponent } from './components/user/register/register.component
 import { UserService } from './services/user.service';
 import { ImageService } from './services/image.service';
 import { ProductoService } from './services/producto.service';
+import { WebSocketService} from './services/web-socket.service';
+
 import { HomeComponent } from './components/user/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ConfirmacionRegistroComponent } from './components/user/confirmacion-registro/confirmacion-registro.component';
@@ -62,7 +64,8 @@ import { ChatsComponent } from './components/user/chats/chats.component';
   providers: [
     UserService,
     ImageService,
-    ProductoService
+    ProductoService,
+    WebSocketService
   ],
   bootstrap: [AppComponent]
 })

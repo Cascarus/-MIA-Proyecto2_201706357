@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service'
 import { ImageService } from '../../../services/image.service'
 import { User } from 'src/app/models/user';
+import { Router } from '@angular/router';
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -14,7 +15,7 @@ interface HtmlInputEvent extends Event {
 })
 export class HomeComponent implements OnInit {
   file: File;
-  constructor(private userService: UserService, private imageService: ImageService) { }
+  constructor(private userService: UserService, private imageService: ImageService,private router:Router) {  }
   user: any;
   paises: any = [];
 
@@ -41,10 +42,10 @@ export class HomeComponent implements OnInit {
         this.user2=res;
         console.log(res)},
       err => console.log(err) 
-     );
-
-     
+     );     
   }
+
+
 
 
   getPaises(){

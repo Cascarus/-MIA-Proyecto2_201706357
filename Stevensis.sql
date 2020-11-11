@@ -182,15 +182,7 @@ CREATE TABLE Mensaje(
     FOREIGN KEY (idChat) REFERENCES chat (idChat) ON DELETE CASCADE
 );
 
-INSERT INTO mensaje (texto,fecha,idChat, idUsuario) VALUES (:texto,LOCALTIMESTAMP(2),:idChat,:idUsuario);
-SELECT M.idMensaje, M.texto, M.fecha, M.idChat, U.nombre, U.apellido FROM Mensaje M
-INNER JOIN usuario U ON (U.idUsuario=M.idUsuario)
-WHERE M.idChat=:id
 
-SELECT C.idChat, C.idUsuario1, U.nombre AS vendedor,C.idUsuario2, U2.nombre AS comprador FROM chat C
-INNER JOIN usuario U ON (U.idUsuario=C.idUsuario1)
-INNER JOIN usuario U2 ON (U2.idUsuario=C.idUsuario2)
-WHERE C.idUsuario1=61 OR C.idUsuario2=61
 
 
 CREATE OR REPLACE TRIGGER actualizacionCredito 
@@ -217,6 +209,18 @@ AFTER INSERT ON producto FOR EACH ROW
 BEGIN 
 INSERT INTO Bitacora (email, fecha, descripcion) VALUES ((SELECT U.email FROM producto P INNER JOIN usuario U ON (U.idUsuario=P.idUsuario) WHERE P.idProducto=:new.idProducto),LOCALTIMESTAMP(2), 'El usuario ah registrado un nuevo producto '||:new.nombre);
 END addBitacora3;
+
+CREATE OR REPLACE TRIGGER addBitacora4
+AFTER INSERT ON chat FOR EACH ROW
+BEGIN 
+INSERT INTO Bitacora (email.fecha,descripcion) VALUES ((SELECT U.email FROM usuario U WHERE U.idUsuario=:new.idUsuario2),LOCALTIMESTAMP(2), 'Este usuario ah iniciado un chat ');
+END addBitacora4;
+
+CREATE OR REPLACE TRIGGER addBitacora5
+AFTER INSERT ON Mensaje FOR EACH ROW
+BEGIN 
+INSERT INTO Bitacora (email,fecha,descripcion) VALUES ((SELECT U.email FROM usuario U WHERE U.idUsuario=:new.idUsuario),LOCALTIMESTAMP(2), 'Este usuario envio un mensaje ');
+END addBitacora5;
 
 /* Reporte 2*/
 SELECT P.nombre AS Producto, SUM(DT.cantidad) AS cantidad, U.nombre As cliente, U.apellido FROM detalle_factura DT 
@@ -357,6 +361,16 @@ SELECT * FROM tipo_u;
 SELECT * FROM usuario WHERE email='201706357' AND pass='admin';
 
 UPDATE usuario SET confirmacion=0 WHERE token='eyJhbGciOiJIUzI1NiJ9.cHJ1ZWJhc2lzQGdtYWlsLmNvbQ.WV0tT9CXqHixs7zvqJw2rL3AZBL-azR1irrX2bbZ2eo';
+
+INSERT INTO mensaje (texto,fecha,idChat, idUsuario) VALUES (:texto,LOCALTIMESTAMP(2),:idChat,:idUsuario);
+SELECT M.idMensaje, M.texto, M.fecha, M.idChat, U.nombre, U.apellido FROM Mensaje M
+INNER JOIN usuario U ON (U.idUsuario=M.idUsuario)
+WHERE M.idChat=:id
+
+SELECT C.idChat, C.idUsuario1, U.nombre AS vendedor,C.idUsuario2, U2.nombre AS comprador FROM chat C
+INNER JOIN usuario U ON (U.idUsuario=C.idUsuario1)
+INNER JOIN usuario U2 ON (U2.idUsuario=C.idUsuario2)
+WHERE C.idUsuario1=61 OR C.idUsuario2=61
 
 
 DROP TABLE usuario;

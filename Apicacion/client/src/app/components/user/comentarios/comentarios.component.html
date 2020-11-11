@@ -7,7 +7,7 @@
         <div class="toast show " *ngFor="let coment of comentarios">
             <div class="toast-header">
               <strong class="mr-auto">{{coment.NOMBRE}} {{coment.APELLIDO}}</strong>
-              <small>{{coment.FECHA}}</small>
+              <small>{{coment.FECHA | date:'yyyy/MM/dd HH:mm'}}</small>
             </div>
             <div class="toast-body">
               {{coment.COMENT}}

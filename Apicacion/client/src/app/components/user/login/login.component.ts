@@ -49,10 +49,12 @@ export class LoginComponent implements OnInit {
             
             if(this.tempU.rol==1){
               this.addBitacora();
-              this.router.navigate(['admin/categorias']);
+              document.location.href="admin/categorias"
+              //this.router.navigate(['admin/categorias']);
             }else if(this.tempU.rol==2){
               this.addBitacora();
-              this.router.navigate(['user/home']);
+              document.location.href="user/home"
+             // this.router.navigate(['user/home']);
             }
           }else{
             alert("No ah balidado la cuenta");
