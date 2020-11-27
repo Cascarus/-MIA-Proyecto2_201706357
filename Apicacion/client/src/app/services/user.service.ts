@@ -8,7 +8,7 @@ import { User } from '../models/user';
 export class UserService {
 
   constructor(private http: HttpClient) { }
-  url:string = "http://192.168.0.8:3009/";
+  url:string = "http://192.168.0.5:3009/";
   
   addUser(user: User){
     return this.http.post(`${this.url}user/`,user);

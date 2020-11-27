@@ -9,7 +9,7 @@ export class ProductoService {
 
   constructor(private http: HttpClient) { }
 
-  url:string = "http://192.168.0.8:3009/";
+  url:string = "http://192.168.0.5:3009/";
 
   addCategoria(categoria:Categoria){
     return this.http.post(`${this.url}producto/categoria`,categoria);

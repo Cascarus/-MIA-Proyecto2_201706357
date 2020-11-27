@@ -58,7 +58,7 @@ class UserController {
                 subject: "Confirmacion De Registro", // Subject line
                 text: " Confirme su registro ", // plain text body
                 html: "<br><h1>Confirma  tu servicio "+ obj.nombre+".</h1>"+"<br>"+"<h3>Presiona el siguiente link para confirmar tu cuenta</h3>"+"<br>"+ 
-                "<a href=\"http://192.168.0.8:4200/confirmacionUser/"+obj.token+"\"><buttonhref=\"http://192.168.0.8:4200/confirmacionUser/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
+                "<a href=\"http://192.168.0.5:4200/confirmacionUser/"+obj.token+"\"><buttonhref=\"http://192.168.0.5:4200/confirmacionUser/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
                 "<br>"+
                 "<br><img src=\"https://img.icons8.com/wired/2x/among-us.png\"/>", // html body
               });

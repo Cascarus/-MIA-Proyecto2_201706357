@@ -8,7 +8,7 @@ import { formatDate } from '@angular/common';
 export class ImageService {
 
   constructor(private http: HttpClient) { }
-  url:string = "http://192.168.0.8:3009/";
+  url:string = "http://192.168.0.5:3009/";
 
   create(photo:File){
     const fd = new FormData;

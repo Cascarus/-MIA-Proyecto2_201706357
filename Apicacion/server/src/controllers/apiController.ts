@@ -42,7 +42,7 @@ class ApiController {
                 subject: "Cambio de contraseña", // Subject line
                 text: " Confirme su cambio de contraseña ", // plain text body
                 html: "<br><h1>Confirme que ud "+ obj.nombre+" Quiere cambiar de contraseña.</h1>"+"<br>"+"<h3>Presiona el siguiente link para cambiar la conseña</h3>"+"<br>"+ 
-                "<a href=\"http://192.168.0.8:4200/cambioContrasenia/"+obj.token+"\"><buttonhref=\"http://192.168.0.8:4200/cambioContrasenia/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
+                "<a href=\"http://192.168.0.5:4200/cambioContrasenia/"+obj.token+"\"><buttonhref=\"http://192.168.0.5:4200/cambioContrasenia/"+obj.token+"\"  style=\"background-color:blue; border-color:black; color:white\" width=\"100\"; height=\"50\">Confirmar Correo</button></a>"+
                 "<br>"+
                 "<br><img src=\"https://cdn130.picsart.com/338579709044211.png?type=webp&to=min&r=240\"/>", // html body
               });
